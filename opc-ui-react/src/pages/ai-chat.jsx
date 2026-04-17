@@ -118,9 +118,13 @@ export default function AIChat() {
         </div>
       </section>
 
-      {/* AI 助手浮窗面板 */}
+      {/* AI 助手浮窗面板 - 页面专属的完整版本 */}
       <div className="assistant-wrap">
-        <button className="chat-fab" aria-label="打开行业AI助手" onClick={() => setIsPanelOpen(!isPanelOpen)}>
+        <button
+          className="chat-fab"
+          aria-label="打开行业AI助手"
+          onClick={() => setIsPanelOpen(!isPanelOpen)}
+        >
           AI
         </button>
         {isPanelOpen && (
@@ -181,7 +185,7 @@ export default function AIChat() {
                   onKeyDown={handleKeyDown}
                 />
                 {selectedFile && (
-                  <div className="file-preview">
+                  <div className="file-preview" style={{ display: 'flex' }}>
                     <span>{selectedFile.name}</span>
                     <button onClick={handleRemoveFile}>移除</button>
                   </div>
@@ -228,7 +232,7 @@ export default function AIChat() {
             👎
           </button>
           {showFeedback && (
-            <div className="feedback-comment">
+            <div className="feedback-comment" style={{ display: 'block' }}>
               <textarea placeholder="请告诉我们如何改进..." style={{ width: '100%', marginTop: '8px' }} />
               <button style={{ marginTop: '6px' }}>提交</button>
             </div>
