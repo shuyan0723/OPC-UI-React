@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>行业AI助手</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-badge">OP</span> OPC AI运营官</div>
+      <div class="top-actions"><a href="../index.html">返回首页</a></div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" data-global-sidebar></aside>
+      <main class="main">
+        <div class="breadcrumb">配置中心 / 行业AI助手</div>
+        <h1 class="page-title">行业AI助手</h1>
+        <section class="card chat-preview-card">
+          <div class="mock-status-row">
+            <span class="mock-status-pill active">1 问题提出</span>
+            <span class="mock-status-pill">2 数据分析</span>
+            <span class="mock-status-pill">3 结果呈现</span>
+          </div>
+          <div class="mock-chat-canvas">
+            <div class="mock-message">
+              <div class="mock-message-bubble">你好！ 我是您的AI运营官，有什么可以帮助您的吗？</div>
+              <div class="mock-time">10:00</div>
+            </div>
+          </div>
+          <div class="mock-input-wrap">
+            <div class="mock-tools">
+              <button class="tool-btn">@提及</button>
+              <button class="tool-btn">表情</button>
+              <button class="tool-btn">格式</button>
+              <button class="tool-btn">快捷指令 Ctrl+K</button>
+              <button class="tool-btn">上传文件</button>
+              <button class="tool-btn">按住说话</button>
+            </div>
+            <div class="mock-input-line">输入您的问题或指令...</div>
+            <div class="mock-input-footer">
+              <span class="footer-note">0 字</span>
+              <button class="btn-primary">发送</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="assistant-wrap" id="assistantPanel">
+          <button class="chat-fab" id="chatFab" aria-label="打开行业AI助手">AI</button>
+          <section class="assistant-panel">
+            <div class="toolbar" style="margin-bottom:8px">
+              <strong>行业AI助手</strong>
+              <button id="closeAssistant">收起</button>
+            </div>
+            <div class="industry-prompt-list">
+              <button class="prompt-chip" data-industry-prompt="跨境电商：帮我分析最近7天美国站点的爆品趋势">跨境电商爆品趋势</button>
+              <button class="prompt-chip" data-industry-prompt="跨境电商：分析最近7天美国站点高转化关键词与投放建议">美国站关键词洞察</button>
+              <button class="prompt-chip" data-industry-prompt="本地生活：给我一份本周门店拉新活动优化建议">本地生活拉新建议</button>
+              <button class="prompt-chip" data-industry-prompt="知识付费：分析最近30天课程完课率变化并给出改进方案">知识付费完课率分析</button>
+            </div>
+            <section class="card" style="margin-bottom:0">
+          <div class="status-row">
+            <div class="status-item active">1 问题提出</div>
+            <div class="status-item">2 数据分析</div>
+            <div class="status-item">3 结果呈现</div>
+          </div>
+          <div class="chat-history" id="chatHistory">
+            <div class="chat-message ai">
+              <div class="message-content">
+                <div class="message-text">您好！我是您的AI运营官，有什么可以帮助您的吗？</div>
+                <div class="message-time">10:00</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <div class="input-toolbar">
+              <button class="toolbar-btn">@提及</button>
+              <button class="toolbar-btn">表情</button>
+              <button class="toolbar-btn">格式</button>
+              <button class="tool-btn" id="openCommandPanel">快捷指令 Ctrl+K</button>
+              <label class="tool-btn">上传文件<input id="fileInput" type="file" multiple accept="image/*,application/pdf,.doc,.docx" hidden></label>
+              <button class="tool-btn" id="voiceBtn">按住说话</button>
+            </div>
+            <textarea class="rich-textarea" id="chatInput" rows="1" data-max-rows="3" placeholder="输入您的问题或指令..."></textarea>
+            <div class="file-preview" id="filePreview"><span id="fileInfo">未选择文件</span><button id="removeFile">移除</button></div>
+            <div class="chat-input-footer">
+              <span id="charCount" class="footer-note">0 字</span>
+              <button class="btn-primary" id="sendBtn" disabled>发送</button>
+            </div>
+          </div>
+            </section>
+          </section>
+        </div>
+
+        <section class="card">
+          <h3>结构化响应示例</h3>
+          <div class="grid cols-2">
+            <div class="metric"><div class="metric-label">总销售额</div><div class="metric-value">¥128,000</div></div>
+            <div class="metric"><div class="metric-label">订单数量</div><div class="metric-value">320</div></div>
+          </div>
+          <div class="chart-placeholder" style="margin-top:10px">销售趋势图占位</div>
+          <div style="margin-top:10px">
+            <button class="btn-primary">导出PDF</button>
+            <button>分享报告</button>
+            <button>修改分析</button>
+          </div>
+          <div style="margin-top:10px">
+            这个回答有帮助吗？
+            <button class="tool-btn" data-feedback="up">👍</button>
+            <button class="tool-btn" data-feedback="down">👎</button>
+            <div class="feedback-comment" id="feedbackComment">
+              <textarea placeholder="请告诉我们如何改进..." style="width:100%;margin-top:8px"></textarea>
+              <button style="margin-top:6px">提交</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="command-panel" id="commandPanel">
+    <div class="command-inner">
+      <div class="toolbar">
+        <input id="commandSearch" placeholder="输入指令或问题..." style="flex:1">
+        <button id="closeCommandPanel">关闭</button>
+      </div>
+      <div class="tabs" style="margin-top:8px">
+        <button class="tab active" data-command-category="all">全部</button>
+        <button class="tab" data-command-category="data">数据分析</button>
+        <button class="tab" data-command-category="report">报告生成</button>
+        <button class="tab" data-command-category="optimize">优化建议</button>
+      </div>
+      <div>
+        <div class="command-item" data-command-item data-category="data" data-command="/sales-analysis">销售数据分析：分析销售数据趋势和关键指标</div>
+        <div class="command-item" data-command-item data-category="report" data-command="/financial-report">财务报告生成：生成月度/季度财务分析报告</div>
+        <div class="command-item" data-command-item data-category="optimize" data-command="/campaign-optimize">投放优化建议：识别低效渠道并输出优化动作</div>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

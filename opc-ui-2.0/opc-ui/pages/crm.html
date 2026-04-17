@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>客户关系管理</title><link rel="stylesheet" href="../assets/styles.css"></head>
+<body><div class="app-shell"><header class="topbar"><div class="brand"><span class="brand-badge">OP</span> OPC AI运营官</div><div class="top-actions"><a href="../index.html">返回首页</a></div></header>
+<div class="layout"><aside class="sidebar" data-global-sidebar></aside>
+<main class="main"><div class="breadcrumb">运营管理 / 客户关系管理</div><h1 class="page-title">客户关系管理</h1>
+<section class="card"><div class="tabs" data-tab-group><button class="tab active" data-target="all">全部 120</button><button class="tab" data-target="potential">潜在 50</button><button class="tab" data-target="follow">跟进 40</button><button class="tab" data-target="deal">成交 30</button></div></section>
+<section class="card" data-tab-root><div class="toolbar"><input placeholder="搜索客户"><select><option>全部行业</option></select><button class="btn-primary" data-open-modal="newCustomerModal">新建客户</button></div><div data-tab-pane="all"><div class="list-card" data-open-drawer="customerDrawer">公司：ABC科技 | 联系人：张经理 | 阶段：需求沟通 | 最近联系：2026-04-15</div><div class="list-card">公司：晨曦智能 | 联系人：李总 | 阶段：方案演示</div></div><div data-tab-pane="potential" style="display:none"><div class="list-card">潜在客户：未来数据</div></div><div data-tab-pane="follow" style="display:none"><div class="list-card">跟进客户：星河互联</div></div><div data-tab-pane="deal" style="display:none"><div class="list-card">成交客户：北辰科技</div></div></section>
+</main></div></div>
+<div class="modal-backdrop" id="newCustomerModal"><div class="modal"><h3>新建客户</h3><div class="grid cols-2"><input placeholder="公司名称"><input placeholder="联系人"><input placeholder="联系电话"><input placeholder="当前阶段"></div><div style="margin-top:10px"><button class="btn-primary">保存</button> <button data-close-modal>取消</button></div></div></div>
+<div class="drawer" id="customerDrawer"><div class="drawer-panel"><h3>客户详情</h3><p>这里展示客户完整画像、跟进记录和消息入口。</p><button data-close-drawer>关闭</button></div></div>
+<script src="../assets/app.js"></script></body></html>

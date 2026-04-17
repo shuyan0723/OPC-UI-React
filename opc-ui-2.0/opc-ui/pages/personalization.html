@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个性化设置</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-badge">OP</span> OPC AI运营官</div>
+      <div class="top-actions"><a href="../index.html">返回首页</a></div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" data-global-sidebar></aside>
+      <main class="main">
+        <div class="breadcrumb">配置中心 / 个性化设置</div>
+        <h1 class="page-title">个性化定制</h1>
+        <div class="three-col">
+          <section class="card config-nav">
+            <a class="nav-item active" href="#industry">行业定制</a>
+            <a class="nav-item" href="#role">角色定制</a>
+            <a class="nav-item" href="#stage">阶段定制</a>
+          </section>
+          <section>
+            <div class="card" id="industry">
+              <h3>行业模板选择</h3>
+              <div class="template-grid">
+                <div class="template-card selected" data-template-card="自媒体">
+                  <h4>自媒体 <span class="tag-enabled">已启用</span></h4>
+                  <p>内容创作、粉丝运营、广告变现</p>
+                  <div class="template-features"><span>内容日历</span><span>粉丝分析</span><span>广告报价</span></div>
+                  <button class="btn-primary" data-apply-template>使用此模板</button>
+                </div>
+                <div class="template-card" data-template-card="电商">
+                  <h4>电商</h4>
+                  <p>商品管理、订单处理、供应链优化</p>
+                  <div class="template-features"><span>库存管理</span><span>订单跟踪</span><span>物流对接</span></div>
+                  <button class="btn-outline" data-apply-template>使用此模板</button>
+                </div>
+                <div class="template-card" data-template-card="知识付费">
+                  <h4>知识付费</h4>
+                  <p>课程制作、学员管理、收益分析</p>
+                  <div class="template-features"><span>课程管理</span><span>学员跟踪</span><span>收益分成</span></div>
+                  <button class="btn-outline" data-apply-template>使用此模板</button>
+                </div>
+              </div>
+            </div>
+            <div class="card" id="role">
+              <h3>角色视角设置</h3>
+              <div class="role-tabs">
+                <button class="role-tab active" data-role-tab="ceo">CEO视角</button>
+                <button class="role-tab" data-role-tab="operator">运营视角</button>
+                <button class="role-tab" data-role-tab="finance">财务视角</button>
+              </div>
+              <div class="role-panel active" data-role-panel="ceo">
+                <h4>CEO核心关注指标</h4>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>营收增长率</label>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>利润率</label>
+                <label class="checkbox-item"><input type="checkbox" data-metric>用户增长率</label>
+              </div>
+              <div class="role-panel" data-role-panel="operator">
+                <h4>运营核心指标</h4>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>内容发布量</label>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>互动率</label>
+                <label class="checkbox-item"><input type="checkbox" data-metric>转化率</label>
+              </div>
+              <div class="role-panel" data-role-panel="finance">
+                <h4>财务核心指标</h4>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>现金流状况</label>
+                <label class="checkbox-item"><input type="checkbox" checked data-metric>成本结构</label>
+                <label class="checkbox-item"><input type="checkbox" data-metric>税务合规</label>
+              </div>
+              <button style="margin-top:10px" data-restore-default>恢复默认</button>
+            </div>
+            <div class="card" id="stage">
+              <h3>企业发展阶段</h3>
+              <div class="stage-inline">
+                <label for="foundedDate">企业成立时间</label>
+                <input id="foundedDate" type="date" required>
+              </div>
+              <p class="field-error" id="foundedDateError">请选择企业成立日期</p>
+              <div class="founded-result" id="foundedResult">已成立0年0月 <span class="stage-tag stage-startup" id="foundedStageTag">初创期</span></div>
+              <div class="stage-item active" data-stage="startup"><div class="stage-number">1</div><div><h4>初创期</h4><p>产品验证、市场探索</p></div></div>
+              <div class="stage-item" data-stage="growth"><div class="stage-number">2</div><div><h4>成长期</h4><p>规模扩张、模式优化</p></div></div>
+              <div class="stage-item" data-stage="mature"><div class="stage-number">3</div><div><h4>成熟期</h4><p>稳定运营、持续创新</p></div></div>
+              <button class="btn-primary" data-open-modal="stageStrategyModal">查看详细策略</button>
+            </div>
+          </section>
+          <section class="card">
+            <h3>实时预览</h3>
+            <div class="preview-box">
+              <p>当前行业模板：<strong id="previewTemplate">自媒体</strong></p>
+              <p>当前角色：<strong id="previewRole">CEO视角</strong></p>
+              <p>当前阶段：<strong id="previewStage">初创期</strong></p>
+              <p>已选指标：<span id="previewMetrics">营收增长率、利润率</span></p>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="stageStrategyModal">
+    <div class="modal">
+      <h3>阶段策略详情</h3>
+      <p id="stageStrategyText">初创期建议：聚焦MVP验证、核心用户获取和融资准备。</p>
+      <button data-close-modal>关闭</button>
+    </div>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

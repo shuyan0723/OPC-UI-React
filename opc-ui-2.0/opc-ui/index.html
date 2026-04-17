@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPC AI运营官 - 总览</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-badge">OP</span> OPC AI运营官</div>
+      <div class="top-actions">
+        <input placeholder="全局搜索" />
+        <button>消息</button>
+        <a class="btn-outline" href="./pages/personalization.html">个性化设置</a>
+        <button>用户中心</button>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" data-global-sidebar></aside>
+      <main class="main">
+        <div class="breadcrumb">首页 / 总览</div>
+        <h1 class="page-title">OPC场景 AI运营官总览</h1>
+        <section class="card">
+          <div class="grid cols-4">
+            <div class="metric"><div class="metric-label">今日预警</div><div class="metric-value">4</div></div>
+            <div class="metric"><div class="metric-label">新增线索</div><div class="metric-value">18</div></div>
+            <div class="metric"><div class="metric-label">本月利润</div><div class="metric-value">40万</div></div>
+            <div class="metric"><div class="metric-label">融资匹配</div><div class="metric-value">12家</div></div>
+          </div>
+        </section>
+        <section class="card">
+          <h3>模块快捷入口</h3>
+          <div class="grid cols-3">
+            <a class="list-card" href="./pages/market-trend.html">智能决策支持：行业工作流驾驶舱</a>
+            <a class="list-card" href="./pages/crm.html">运营管理：客户关系管理</a>
+            <a class="list-card" href="./pages/finance-analysis.html">财务管理：财务分析</a>
+            <a class="list-card" href="./pages/competitor.html">智能决策支持：竞争情报监控</a>
+            <a class="list-card" href="./pages/content-ops.html">运营管理：内容运营</a>
+            <a class="list-card" href="./pages/investment.html">资源对接：投融资对接</a>
+            <a class="list-card" href="./pages/personalization.html">配置中心：个性化定制</a>
+            <a class="list-card" href="./pages/ai-chat.html">配置中心：行业AI助手</a>
+          </div>
+        </section>
+        <p class="footer-note">本原型为评审版，图表区域采用轻量占位与模拟数据。</p>
+      </main>
+    </div>
+  </div>
+  <script src="./assets/app.js"></script>
+</body>
+</html>

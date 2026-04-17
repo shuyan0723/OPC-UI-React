@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>行业工作流驾驶舱</title><link rel="stylesheet" href="../assets/styles.css"></head>
+<body><div class="app-shell"><header class="topbar"><div class="brand"><span class="brand-badge">OP</span> OPC AI运营官</div><div class="top-actions"><a href="../index.html">返回首页</a></div></header>
+<div class="layout"><aside class="sidebar" data-global-sidebar></aside>
+<main class="main"><div class="breadcrumb">智能决策支持 / 行业工作流驾驶舱</div><h1 class="page-title">行业工作流驾驶舱</h1>
+<section class="card"><div class="toolbar"><select><option>全部行业</option><option>科技</option><option>消费</option></select><select><option>近30天</option><option>近90天</option></select><select id="trendDimension"><option value="营收">营收</option><option value="增速">增速</option><option value="热度">热度</option></select><button class="btn-primary">生成报告</button></div></section>
+<section class="card"><div class="grid cols-2"><div class="chart-placeholder"><strong>折线图：市场趋势变化</strong><div class="chart-bars"><span style="height:20%"></span><span style="height:38%"></span><span style="height:55%"></span><span style="height:72%"></span><span style="height:62%"></span></div></div><div class="chart-placeholder"><strong>柱状图：细分领域表现</strong><div class="chart-bars"><span style="height:65%"></span><span style="height:38%"></span><span style="height:48%"></span><span style="height:58%"></span></div></div></div></section>
+<section class="card"><table class="table"><thead><tr><th>行业</th><th>周期</th><th>增长率</th><th>解读</th></tr></thead><tbody id="trendTableBody"></tbody></table></section>
+</main></div></div><script src="../assets/mock-data.js"></script><script src="../assets/app.js"></script></body></html>
