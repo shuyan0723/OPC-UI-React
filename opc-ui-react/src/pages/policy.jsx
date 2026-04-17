@@ -36,7 +36,7 @@ export default function Policy() {
 
       <section className="card">
         <h3>申报进度跟踪</h3>
-        <div className="chart-placeholder">材料准备 -> 提交申请 -> 审核中 -> 结果公布</div>
+        <div className="chart-placeholder">材料准备 → 提交申请 → 审核中 → 结果公布</div>
       </section>
     </>
   );
