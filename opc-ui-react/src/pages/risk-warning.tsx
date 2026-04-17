@@ -1,8 +1,10 @@
+import type { Risk } from '@types';
+
 /**
  * RiskWarning - 风险预警中心页面
  */
 export default function RiskWarning() {
-  const risks = [
+  const risks: Risk[] = [
     {
       id: 1,
       level: 'high',

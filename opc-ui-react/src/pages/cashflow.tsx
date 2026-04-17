@@ -1,8 +1,16 @@
+interface CashflowData {
+  id: number;
+  date: string;
+  project: string;
+  amount: string;
+  type: string;
+}
+
 /**
  * Cashflow - 现金流管理页面
  */
 export default function Cashflow() {
-  const cashflowData = [
+  const cashflowData: CashflowData[] = [
     { id: 1, date: '2026-04-20', project: '客户回款', amount: '+50,000', type: '收入' },
     { id: 2, date: '2026-04-24', project: '房租支付', amount: '-10,000', type: '支出' },
   ];

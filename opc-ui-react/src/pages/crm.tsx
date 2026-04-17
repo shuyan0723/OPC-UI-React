@@ -1,44 +1,50 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import type { Customer } from '@types';
+
+interface Tab {
+  key: string;
+  label: string;
+  count: number;
+}
 
 /**
  * CRM - 客户关系管理页面
  */
 export default function CRM() {
-  const [activeTab, setActiveTab] = useState('all');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('all');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // 模拟客户数据
-  const customers = {
+  const customers: Record<string, Customer[]> = {
     all: [
-      { id: 1, company: 'ABC科技', contact: '张经理', stage: '需求沟通', lastContact: '2026-04-15' },
-      { id: 2, company: '晨曦智能', contact: '李总', stage: '方案演示', lastContact: '2026-04-14' },
+      { id: 1, company: 'ABC科技', contact: '张经理', stage: 'potential', lastContact: '2026-04-15' },
+      { id: 2, company: '晨曦智能', contact: '李总', stage: 'following', lastContact: '2026-04-14' },
     ],
     potential: [
-      { id: 3, company: '未来数据', contact: '王总', stage: '潜在客户', lastContact: '' },
+      { id: 3, company: '未来数据', contact: '王总', stage: 'potential', lastContact: '' },
     ],
     follow: [
-      { id: 4, company: '星河互联', contact: '赵经理', stage: '跟进中', lastContact: '2026-04-13' },
+      { id: 4, company: '星河互联', contact: '赵经理', stage: 'following', lastContact: '2026-04-13' },
     ],
     deal: [
-      { id: 5, company: '北辰科技', contact: '刘总', stage: '已成交', lastContact: '2026-04-10' },
+      { id: 5, company: '北辰科技', contact: '刘总', stage: 'deal', lastContact: '2026-04-10' },
     ],
   };
 
-  const tabs = [
+  const tabs: Tab[] = [
     { key: 'all', label: '全部', count: 120 },
     { key: 'potential', label: '潜在', count: 50 },
     { key: 'follow', label: '跟进', count: 40 },
     { key: 'deal', label: '成交', count: 30 },
   ];
 
-  const handleTabClick = (key) => {
+  const handleTabClick = (key: string) => {
     setActiveTab(key);
   };
 
-  const openCustomerDrawer = (customer) => {
+  const openCustomerDrawer = (customer: Customer) => {
     setSelectedCustomer(customer);
     setIsDrawerOpen(true);
   };

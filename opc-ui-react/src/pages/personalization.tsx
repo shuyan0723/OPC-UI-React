@@ -1,17 +1,37 @@
 import { useState } from 'react';
 
+interface Template {
+  id: string;
+  name: string;
+  description: string;
+  features: string[];
+  selected: boolean;
+}
+
+interface Role {
+  id: string;
+  name: string;
+  metrics: string[];
+}
+
+interface Stage {
+  id: string;
+  name: string;
+  description: string;
+}
+
 /**
  * Personalization - 个性化设置页面
  */
 export default function Personalization() {
-  const [activeSection, setActiveSection] = useState('industry');
-  const [selectedTemplate, setSelectedTemplate] = useState('自媒体');
-  const [activeRole, setActiveRole] = useState('ceo');
-  const [selectedStage, setSelectedStage] = useState('startup');
-  const [foundedDate, setFoundedDate] = useState('');
-  const [showStrategyModal, setShowStrategyModal] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('industry');
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('自媒体');
+  const [activeRole, setActiveRole] = useState<string>('ceo');
+  const [selectedStage, setSelectedStage] = useState<string>('startup');
+  const [foundedDate, setFoundedDate] = useState<string>('');
+  const [showStrategyModal, setShowStrategyModal] = useState<boolean>(false);
 
-  const templates = [
+  const templates: Template[] = [
     {
       id: '自媒体',
       name: '自媒体',
@@ -35,34 +55,34 @@ export default function Personalization() {
     },
   ];
 
-  const roles = [
+  const roles: Role[] = [
     { id: 'ceo', name: 'CEO视角', metrics: ['营收增长率', '利润率', '用户增长率'] },
     { id: 'operator', name: '运营视角', metrics: ['内容发布量', '互动率', '转化率'] },
     { id: 'finance', name: '财务视角', metrics: ['现金流状况', '成本结构', '税务合规'] },
   ];
 
-  const stages = [
+  const stages: Stage[] = [
     { id: 'startup', name: '初创期', description: '产品验证、市场探索' },
     { id: 'growth', name: '成长期', description: '规模扩张、模式优化' },
     { id: 'mature', name: '成熟期', description: '稳定运营、持续创新' },
   ];
 
-  const handleTemplateSelect = (templateId) => {
+  const handleTemplateSelect = (templateId: string) => {
     setSelectedTemplate(templateId);
   };
 
-  const handleDateChange = (e) => {
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFoundedDate(e.target.value);
   };
 
-  const getStageInfo = (date) => {
+  const getStageInfo = (date: string) => {
     if (!date) return { years: 0, months: 0, stage: 'startup' };
     const founded = new Date(date);
     const now = new Date();
-    const diff = now - founded;
+    const diff = now.getTime() - founded.getTime();
     const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
     const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
-    let stage = 'startup';
+    let stage: 'startup' | 'growth' | 'mature' = 'startup';
     if (years > 3) stage = 'mature';
     else if (years > 1) stage = 'growth';
     return { years, months, stage };
@@ -183,7 +203,7 @@ export default function Personalization() {
             {foundedDate && (
               <div className="founded-result">
                 已成立{stageInfo.years}年{stageInfo.months}月{' '}
-                <span className="stage-tag stage-{stageInfo.stage}">
+                <span className={`stage-tag stage-${stageInfo.stage}`}>
                   {currentStage?.name || '初创期'}
                 </span>
               </div>

@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import type { Task } from '@types';
 
 /**
  * Project - 项目管理页面
  */
 export default function Project() {
-  const [activeTab, setActiveTab] = useState('全部');
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('全部');
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   const tabs = ['全部', '进行中', '已完成'];
 
@@ -25,7 +26,7 @@ export default function Project() {
     ],
   };
 
-  const openTaskDrawer = (task) => {
+  const openTaskDrawer = (task: Task) => {
     setSelectedTask(task);
     setIsDrawerOpen(true);
   };

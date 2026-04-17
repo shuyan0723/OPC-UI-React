@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { navigationGroups } from '@utils/navigationConfig';
 import { useLocalStorage } from '@hooks';
@@ -8,10 +7,10 @@ import { useLocalStorage } from '@hooks';
  */
 export function Sidebar() {
   const location = useLocation();
-  const [groupState, setGroupState] = useLocalStorage('opc_nav_group_state', {});
+  const [groupState, setGroupState] = useLocalStorage<Record<string, boolean>>('opc_nav_group_state', {});
 
   // 获取当前激活的路径
-  const getCurrentPath = () => {
+  const getCurrentPath = (): string => {
     const path = location.pathname;
     if (path === '/') return 'index.html';
     return path.replace(/^\//, '').replace(/\.html$/, '') || 'index.html';
@@ -20,7 +19,7 @@ export function Sidebar() {
   const currentPath = getCurrentPath();
 
   // 判断分组是否应该展开（有激活项时自动展开）
-  const isGroupExpanded = (group) => {
+  const isGroupExpanded = (group: typeof navigationGroups[0]): boolean => {
     if (groupState[group.key] !== undefined) {
       return groupState[group.key];
     }
@@ -28,7 +27,7 @@ export function Sidebar() {
     return hasActive || currentPath === 'index.html';
   };
 
-  const toggleGroup = (key) => {
+  const toggleGroup = (key: string) => {
     setGroupState((prev) => ({
       ...prev,
       [key]: !prev[key],

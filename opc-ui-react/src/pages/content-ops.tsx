@@ -4,8 +4,8 @@ import { useState } from 'react';
  * ContentOps - 内容运营管理页面
  */
 export default function ContentOps() {
-  const [activePlatform, setActivePlatform] = useState('小红书');
-  const [calendarView, setCalendarView] = useState('月');
+  const [activePlatform, setActivePlatform] = useState<string>('小红书');
+  const [calendarView, setCalendarView] = useState<string>('月');
 
   const platforms = ['小红书', '抖音', '微信'];
   const calendarViews = ['月', '周', '日'];

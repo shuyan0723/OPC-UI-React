@@ -1,21 +1,28 @@
 import { useState, useRef } from 'react';
+import type { ChatMessage } from '@types';
+
+interface IndustryPrompt {
+  id: number;
+  label: string;
+  prompt: string;
+}
 
 /**
  * AIChat - 行业AI助手页面
  */
 export default function AIChat() {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 1, role: 'ai', content: '你好！ 我是您的AI运营官，有什么可以帮助您的吗？', time: '10:00' },
   ]);
-  const [input, setInput] = useState('');
-  const [charCount, setCharCount] = useState(0);
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [activeStep, setActiveStep] = useState(1);
-  const chatInputRef = useRef(null);
+  const [input, setInput] = useState<string>('');
+  const [charCount, setCharCount] = useState<number>(0);
+  const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [activeStep, setActiveStep] = useState<number>(1);
+  const chatInputRef = useRef<HTMLTextAreaElement>(null);
 
-  const industryPrompts = [
+  const industryPrompts: IndustryPrompt[] = [
     { id: 1, label: '跨境电商爆品趋势', prompt: '跨境电商：帮我分析最近7天美国站点的爆品趋势' },
     { id: 2, label: '美国站关键词洞察', prompt: '跨境电商：分析最近7天美国站点高转化关键词与投放建议' },
     { id: 3, label: '本地生活拉新建议', prompt: '本地生活：给我一份本周门店拉新活动优化建议' },
@@ -25,7 +32,7 @@ export default function AIChat() {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const newUserMessage = {
+    const newUserMessage: ChatMessage = {
       id: messages.length + 1,
       role: 'user',
       content: input,
@@ -38,7 +45,7 @@ export default function AIChat() {
 
     // 模拟 AI 响应
     setTimeout(() => {
-      const aiResponse = {
+      const aiResponse: ChatMessage = {
         id: messages.length + 2,
         role: 'ai',
         content: '收到您的问题，正在分析中...',
@@ -49,14 +56,14 @@ export default function AIChat() {
     }, 1000);
   };
 
-  const handlePromptClick = (prompt) => {
+  const handlePromptClick = (prompt: string) => {
     setInput(prompt);
     setCharCount(prompt.length);
     chatInputRef.current?.focus();
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
     }
@@ -66,14 +73,14 @@ export default function AIChat() {
     setSelectedFile(null);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
 
-  const handleFeedback = (type) => {
+  const handleFeedback = (type: 'up' | 'down') => {
     if (type === 'down') {
       setShowFeedback(true);
     }
@@ -175,7 +182,7 @@ export default function AIChat() {
                 <textarea
                   ref={chatInputRef}
                   className="rich-textarea"
-                  rows="1"
+                  rows={1}
                   placeholder="输入您的问题或指令..."
                   value={input}
                   onChange={(e) => {

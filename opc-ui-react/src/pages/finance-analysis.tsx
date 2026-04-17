@@ -4,7 +4,7 @@ import { useState } from 'react';
  * FinanceAnalysis - 财务分析页面
  */
 export default function FinanceAnalysis() {
-  const [timeRange, setTimeRange] = useState('month');
+  const [timeRange, setTimeRange] = useState<string>('month');
 
   return (
     <>

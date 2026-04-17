@@ -1,16 +1,28 @@
 import { useState } from 'react';
 
+interface Account {
+  id: number;
+  name: string;
+  status: string;
+  label: string;
+}
+
+interface Rule {
+  id: number;
+  name: string;
+}
+
 /**
  * AutoBookkeeping - 自动记账页面
  */
 export default function AutoBookkeeping() {
-  const [accounts, setAccounts] = useState([
+  const [accounts, setAccounts] = useState<Account[]>([
     { id: 1, name: '银行A', status: 'connected', label: '已连接' },
     { id: 2, name: '支付宝', status: 'connected', label: '已连接' },
     { id: 3, name: '微信支付', status: 'disconnected', label: '未连接' },
   ]);
 
-  const [rules, setRules] = useState([
+  const [rules, setRules] = useState<Rule[]>([
     { id: 1, name: '规则1：房租支出 → 办公租金' },
     { id: 2, name: '规则2：广告费 → 营销推广' },
   ]);
@@ -20,7 +32,7 @@ export default function AutoBookkeeping() {
   };
 
   const handleAddRule = () => {
-    const newRule = { id: rules.length + 1, name: `规则${rules.length + 1}：新规则` };
+    const newRule: Rule = { id: rules.length + 1, name: `规则${rules.length + 1}：新规则` };
     setRules([...rules, newRule]);
   };
 

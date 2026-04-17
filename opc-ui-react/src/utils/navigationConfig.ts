@@ -1,5 +1,9 @@
-// 导航配置（来自原 app.js）
-export const navigationGroups = [
+import type { NavGroup } from '@types';
+
+/**
+ * 导航配置（来自原 app.js）
+ */
+export const navigationGroups: NavGroup[] = [
   {
     key: 'decision',
     title: '智能决策支持',

@@ -4,9 +4,9 @@ import { useState } from 'react';
  * MarketTrend - 行业工作流驾驶舱页面
  */
 export default function MarketTrend() {
-  const [industry, setIndustry] = useState('全部行业');
-  const [timeRange, setTimeRange] = useState('近30天');
-  const [dimension, setDimension] = useState('营收');
+  const [industry, setIndustry] = useState<string>('全部行业');
+  const [timeRange, setTimeRange] = useState<string>('近30天');
+  const [dimension, setDimension] = useState<string>('营收');
 
   const trendData = [
     { id: 1, industry: '跨境电商', period: 'Q1 2026', growth: '+15.2%', insight: '持续增长，美国市场表现强劲' },

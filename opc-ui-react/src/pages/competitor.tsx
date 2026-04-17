@@ -4,7 +4,7 @@ import { useState } from 'react';
  * Competitor - 竞争情报监控页面
  */
 export default function Competitor() {
-  const [selectedCompetitor, setSelectedCompetitor] = useState('a');
+  const [selectedCompetitor, setSelectedCompetitor] = useState<string>('a');
 
   const competitors = [
     { id: 'a', name: '竞品A', marketShare: '30%' },

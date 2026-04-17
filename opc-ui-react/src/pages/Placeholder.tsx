@@ -1,8 +1,12 @@
+interface PlaceholderProps {
+  title: string;
+}
+
 /**
  * Placeholder - 占位页面组件
  * 用于尚未迁移的页面
  */
-export function Placeholder({ title }) {
+export function Placeholder({ title }: PlaceholderProps) {
   return (
     <>
       <div className="breadcrumb">页面 / {title}</div>

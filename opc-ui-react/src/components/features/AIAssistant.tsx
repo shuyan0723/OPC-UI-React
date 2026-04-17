@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+interface IndustryPrompt {
+  id: number;
+  label: string;
+  prompt: string;
+}
+
 /**
  * AIAssistant - 全局 AI 助手浮窗组件
  * 在 ai-chat 页面不显示（该页面有自己的完整面板）
@@ -14,14 +20,14 @@ export function AIAssistant() {
     return null;
   }
 
-  const industryPrompts = [
+  const industryPrompts: IndustryPrompt[] = [
     { id: 1, label: '跨境电商爆品趋势', prompt: '跨境电商：帮我分析最近7天美国站点的爆品趋势' },
     { id: 2, label: '美国站关键词洞察', prompt: '跨境电商：分析最近7天美国站点高转化关键词与投放建议' },
     { id: 3, label: '本地生活拉新建议', prompt: '本地生活：给我一份本周门店拉新活动优化建议' },
     { id: 4, label: '知识付费完课率分析', prompt: '知识付费：分析最近30天课程完课率变化并给出改进方案' },
   ];
 
-  const handlePromptClick = (prompt) => {
+  const handlePromptClick = (prompt: string) => {
     window.location.href = '/ai-chat?prompt=' + encodeURIComponent(prompt);
   };
 
