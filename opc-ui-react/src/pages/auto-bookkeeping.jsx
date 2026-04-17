@@ -11,8 +11,8 @@ export default function AutoBookkeeping() {
   ]);
 
   const [rules, setRules] = useState([
-    { id: 1, name: '规则1：房租支出 -> 办公租金' },
-    { id: 2, name: '规则2：广告费 -> 营销推广' },
+    { id: 1, name: '规则1：房租支出 → 办公租金' },
+    { id: 2, name: '规则2：广告费 → 营销推广' },
   ]);
 
   const handleSync = () => {
