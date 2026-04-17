@@ -39,7 +39,7 @@ export default function Investment() {
 
       <section className="card">
         <h3>融资进度跟踪</h3>
-        <div className="chart-placeholder">时间线：初筛 -> 面谈 -> 尽调 -> TS -> 交割</div>
+        <div className="chart-placeholder">时间线：初筛 → 面谈 → 尽调 → TS → 交割</div>
       </section>
     </>
   );
