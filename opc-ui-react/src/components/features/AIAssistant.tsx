@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 interface IndustryPrompt {
@@ -7,13 +7,103 @@ interface IndustryPrompt {
   prompt: string;
 }
 
+interface Position {
+  x: number;
+  y: number;
+}
+
 /**
  * AIAssistant - 全局 AI 助手浮窗组件
  * 在 ai-chat 页面不显示（该页面有自己的完整面板）
+ * 支持拖拽移动，位置会保存到本地存储
  */
 export function AIAssistant() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [position, setPosition] = useState<Position>({ x: 20, y: 80 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragOffset = useRef<Position>({ x: 0, y: 0 });
+  const fabRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+
+  // 从本地存储加载位置
+  useEffect(() => {
+    const savedPosition = localStorage.getItem('opc_ai_fab_position');
+    if (savedPosition) {
+      try {
+        setPosition(JSON.parse(savedPosition));
+      } catch (e) {
+        console.warn('Failed to parse saved FAB position');
+      }
+    }
+  }, []);
+
+  // 保存位置到本地存储
+  const savePosition = useCallback((pos: Position) => {
+    localStorage.setItem('opc_ai_fab_position', JSON.stringify(pos));
+  }, []);
+
+  // 开始拖拽
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    dragOffset.current = {
+      x: clientX - position.x,
+      y: clientY - position.y,
+    };
+  }, [position]);
+
+  // 拖拽中
+  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+    if (!isDragging) return;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    const newPosition = {
+      x: clientX - dragOffset.current.x,
+      y: clientY - dragOffset.current.y,
+    };
+
+    // 限制在视口范围内
+    const maxX = window.innerWidth - 60;
+    const maxY = window.innerHeight - 60;
+
+    const boundedPosition = {
+      x: Math.max(10, Math.min(newPosition.x, maxX)),
+      y: Math.max(10, Math.min(newPosition.y, maxY)),
+    };
+
+    setPosition(boundedPosition);
+  }, [isDragging]);
+
+  // 结束拖拽
+  const handleDragEnd = useCallback(() => {
+    if (isDragging) {
+      setIsDragging(false);
+      savePosition(position);
+    }
+  }, [isDragging, position, savePosition]);
+
+  // 注册拖拽事件监听器
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleDragMove);
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchmove', handleDragMove);
+      window.addEventListener('touchend', handleDragEnd);
+
+      return () => {
+        window.removeEventListener('mousemove', handleDragMove);
+        window.removeEventListener('mouseup', handleDragEnd);
+        window.removeEventListener('touchmove', handleDragMove);
+        window.removeEventListener('touchend', handleDragEnd);
+      };
+    }
+  }, [isDragging, handleDragMove, handleDragEnd]);
 
   // 在 AI 聊天页面不显示全局助手（因为页面有自己的完整面板）
   if (location.pathname === '/ai-chat') {
@@ -32,11 +122,26 @@ export function AIAssistant() {
   };
 
   return (
-    <div className="assistant-wrap">
+    <div
+      className="assistant-wrap"
+      style={{
+        position: 'fixed',
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        zIndex: 1000,
+      }}
+    >
       <button
+        ref={fabRef}
         className="chat-fab"
         aria-label="打开行业AI助手"
         onClick={() => setIsPanelOpen(!isPanelOpen)}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none',
+        }}
       >
         AI
       </button>
