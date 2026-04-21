@@ -24,6 +24,7 @@ export function AIAssistant() {
   const hasMoved = useRef(false);
   const dragOffset = useRef<Position>({ x: 0, y: 0 });
   const fabRef = useRef<HTMLButtonElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   // 保存位置到本地存储（已禁用，确保每次刷新都回到初始位置）
@@ -81,7 +82,8 @@ export function AIAssistant() {
       if (hasMoved.current) {
         savePosition(position);
       }
-      hasMoved.current = false;
+      // 不重置 hasMoved，防止 onClick 事件触发
+      // hasMoved.current 将在下次 handleDragStart 时重置
     }
   }, [isDragging, position, savePosition]);
 
@@ -101,6 +103,22 @@ export function AIAssistant() {
       };
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
+
+  // 点击外部关闭弹窗
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setIsPanelOpen(false);
+      }
+    };
+
+    if (isPanelOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isPanelOpen]);
 
   // 在 AI 聊天页面不显示全局助手（因为页面有自己的完整面板）
   if (location.pathname === '/ai-chat') {
@@ -127,6 +145,7 @@ export function AIAssistant() {
 
   return (
     <div
+      ref={wrapperRef}
       className="assistant-wrap"
       style={{
         position: 'fixed',
