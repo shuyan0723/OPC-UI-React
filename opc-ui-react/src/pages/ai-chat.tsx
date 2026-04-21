@@ -135,8 +135,8 @@ export default function AIChat() {
           AI
         </button>
         {isPanelOpen && (
-          <section className="assistant-panel" style={{ display: 'block' }}>
-            <div className="toolbar" style={{ marginBottom: '8px' }}>
+          <section className="assistant-panel d-block">
+            <div className="toolbar mb-8">
               <strong>行业AI助手</strong>
               <button onClick={() => setIsPanelOpen(false)}>收起</button>
             </div>
@@ -151,7 +151,7 @@ export default function AIChat() {
                 </button>
               ))}
             </div>
-            <section className="card" style={{ marginBottom: 0 }}>
+            <section className="card mb-0">
               <div className="status-row">
                 <div className={`status-item ${activeStep >= 1 ? 'active' : ''}`}>1 问题提出</div>
                 <div className={`status-item ${activeStep >= 2 ? 'active' : ''}`}>2 数据分析</div>
@@ -192,7 +192,7 @@ export default function AIChat() {
                   onKeyDown={handleKeyDown}
                 />
                 {selectedFile && (
-                  <div className="file-preview" style={{ display: 'flex' }}>
+                  <div className="file-preview d-flex">
                     <span>{selectedFile.name}</span>
                     <button onClick={handleRemoveFile}>移除</button>
                   </div>
@@ -222,15 +222,15 @@ export default function AIChat() {
             <div className="metric-value">320</div>
           </div>
         </div>
-        <div className="chart-placeholder" style={{ marginTop: '10px' }}>
+        <div className="chart-placeholder mt-10">
           销售趋势图占位
         </div>
-        <div style={{ marginTop: '10px' }}>
+        <div className="mt-10">
           <button className="btn-primary">导出PDF</button>
           <button>分享报告</button>
           <button>修改分析</button>
         </div>
-        <div style={{ marginTop: '10px' }}>
+        <div className="mt-10">
           这个回答有帮助吗？
           <button className="tool-btn" onClick={() => handleFeedback('up')}>
             👍
@@ -239,9 +239,9 @@ export default function AIChat() {
             👎
           </button>
           {showFeedback && (
-            <div className="feedback-comment" style={{ display: 'block' }}>
-              <textarea placeholder="请告诉我们如何改进..." style={{ width: '100%', marginTop: '8px' }} />
-              <button style={{ marginTop: '6px' }}>提交</button>
+            <div className="feedback-comment d-block">
+              <textarea placeholder="请告诉我们如何改进..." className="w-100 mt-8" />
+              <button className="mt-6">提交</button>
             </div>
           )}
         </div>

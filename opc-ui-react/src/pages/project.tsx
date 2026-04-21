@@ -58,9 +58,7 @@ export default function Project() {
               {taskList.map((task) => (
                 <div
                   key={task.id}
-                  className="task"
-                  onClick={() => openTaskDrawer(task)}
-                  style={{ cursor: 'pointer' }}
+                  className="task cursor-pointer"
                 >
                   {task.name}
                 </div>

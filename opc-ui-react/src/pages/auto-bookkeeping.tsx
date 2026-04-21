@@ -50,7 +50,7 @@ export default function AutoBookkeeping() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: '10px' }}>
+        <div className="mt-10">
           <button className="btn-primary" onClick={handleSync}>
             一键同步银行流水
           </button>

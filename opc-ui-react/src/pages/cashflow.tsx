@@ -24,11 +24,11 @@ export default function Cashflow() {
         <div className="chart-placeholder">
           <strong>未来30天现金流预测</strong>
           <div className="chart-bars">
-            <span style={{ height: '80%' }}></span>
-            <span style={{ height: '70%' }}></span>
-            <span style={{ height: '55%' }}></span>
-            <span style={{ height: '30%' }}></span>
-            <span style={{ height: '45%' }}></span>
+            <span className="h-80"></span>
+            <span className="h-70"></span>
+            <span className="h-55"></span>
+            <span className="h-30"></span>
+            <span className="h-45"></span>
           </div>
         </div>
       </section>

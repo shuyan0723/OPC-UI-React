@@ -22,9 +22,7 @@ export default function Competitor() {
           {competitors.map((comp) => (
             <div
               key={comp.id}
-              className={`list-card ${selectedCompetitor === comp.id ? 'active' : ''}`}
-              onClick={() => setSelectedCompetitor(comp.id)}
-              style={{ cursor: 'pointer' }}
+              className={`list-card ${selectedCompetitor === comp.id ? 'active' : ''} cursor-pointer`}
             >
               {comp.name} | 市场份额{comp.marketShare}
             </div>
@@ -46,7 +44,7 @@ export default function Competitor() {
           <span>
             竞品A在产品成熟度和渠道覆盖上领先，建议差异化定价与私域复购策略。
           </span>
-          <div style={{ marginTop: '10px' }}>
+          <div className="mt-10">
             <button className="btn-primary">一键生成竞争策略</button>
           </div>
         </div>

@@ -355,9 +355,7 @@ export default function Personalization() {
               {templates.map((template) => (
                 <div
                   key={template.id}
-                  className={`template-card ${selectedTemplate === template.name ? 'selected' : ''}`}
-                  onClick={() => handleTemplateSelect(template.name)}
-                  style={{ cursor: 'pointer' }}
+                  className={`template-card ${selectedTemplate === template.name ? 'selected' : ''} cursor-pointer`}
                 >
                   <h4>
                     {template.name}
@@ -411,7 +409,7 @@ export default function Personalization() {
                   </div>
                 ),
             )}
-            <button style={{ marginTop: '10px' }}>恢复默认</button>
+            <button className="mt-10">恢复默认</button>
           </div>
 
           {/* 发展阶段 */}
@@ -483,7 +481,6 @@ export default function Personalization() {
                 key={stage.id}
                 className={`stage-item ${selectedStage === stage.id ? 'active' : ''}`}
                 style={{
-                  cursor: 'default',
                   opacity: stageInfo.stage && stage.id !== stageInfo.stage ? 0.5 : 1
                 }}
               >

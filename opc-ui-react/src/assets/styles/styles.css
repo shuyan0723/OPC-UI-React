@@ -300,6 +300,36 @@ button {
   border-color: var(--error);
 }
 
+/* 通用工具类 */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+.d-block { display: block; }
+.d-flex { display: flex; }
+.mt-6 { margin-top: 6px; }
+.mt-8 { margin-top: 8px; }
+.mt-10 { margin-top: 10px; }
+.mb-0 { margin-bottom: 0; }
+.mb-8 { margin-bottom: 8px; }
+.w-100 { width: 100%; }
+.text-center { text-align: center; }
+.link-primary { color: var(--primary); text-decoration: none; font-size: 13px; }
+
+/* 图表高度类 */
+.h-20 { height: 20%; }
+.h-30 { height: 30%; }
+.h-38 { height: 38%; }
+.h-45 { height: 45%; }
+.h-48 { height: 48%; }
+.h-55 { height: 55%; }
+.h-58 { height: 58%; }
+.h-62 { height: 62%; }
+.h-65 { height: 65%; }
+.h-70 { height: 70%; }
+.h-72 { height: 72%; }
+.h-80 { height: 80%; }
+
 .chart-placeholder {
   border: 1px dashed #cfd6e4;
   border-radius: 10px;

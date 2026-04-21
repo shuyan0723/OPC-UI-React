@@ -85,9 +85,7 @@ export default function CRM() {
           {customers[activeTab]?.map((customer) => (
             <div
               key={customer.id}
-              className="list-card"
-              onClick={() => openCustomerDrawer(customer)}
-              style={{ cursor: 'pointer' }}
+              className="list-card cursor-pointer"
             >
               公司：{customer.company} | 联系人：{customer.contact} | 阶段：{customer.stage}
               {customer.lastContact && ` | 最近联系：${customer.lastContact}`}
@@ -107,7 +105,7 @@ export default function CRM() {
               <input placeholder="联系电话" />
               <input placeholder="当前阶段" />
             </div>
-            <div style={{ marginTop: '10px' }}>
+            <div className="mt-10">
               <button className="btn-primary" onClick={() => setIsModalOpen(false)}>
                 保存
               </button>

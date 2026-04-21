@@ -45,20 +45,20 @@ export default function MarketTrend() {
           <div className="chart-placeholder">
             <strong>折线图：市场趋势变化</strong>
             <div className="chart-bars">
-              <span style={{ height: '20%' }}></span>
-              <span style={{ height: '38%' }}></span>
-              <span style={{ height: '55%' }}></span>
-              <span style={{ height: '72%' }}></span>
-              <span style={{ height: '62%' }}></span>
+              <span className="h-20"></span>
+              <span className="h-38"></span>
+              <span className="h-55"></span>
+              <span className="h-72"></span>
+              <span className="h-62"></span>
             </div>
           </div>
           <div className="chart-placeholder">
             <strong>柱状图：细分领域表现</strong>
             <div className="chart-bars">
-              <span style={{ height: '65%' }}></span>
-              <span style={{ height: '38%' }}></span>
-              <span style={{ height: '48%' }}></span>
-              <span style={{ height: '58%' }}></span>
+              <span className="h-65"></span>
+              <span className="h-38"></span>
+              <span className="h-48"></span>
+              <span className="h-58"></span>
             </div>
           </div>
         </div>
