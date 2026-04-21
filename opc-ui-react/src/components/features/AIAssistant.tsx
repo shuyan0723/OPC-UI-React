@@ -18,6 +18,13 @@ interface Position {
  * 支持拖拽移动，位置会保存到本地存储
  */
 export function AIAssistant() {
+  const location = useLocation();
+
+  // 在 AI 聊天页面不显示全局助手（因为页面有自己的完整面板）
+  if (location.pathname === '/ai-chat') {
+    return null;
+  }
+
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 20, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
@@ -25,7 +32,6 @@ export function AIAssistant() {
   const dragOffset = useRef<Position>({ x: 0, y: 0 });
   const fabRef = useRef<HTMLButtonElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const location = useLocation();
 
   // 保存位置到本地存储（已禁用，确保每次刷新都回到初始位置）
   const savePosition = useCallback((_pos: Position) => {
@@ -119,11 +125,6 @@ export function AIAssistant() {
       };
     }
   }, [isPanelOpen]);
-
-  // 在 AI 聊天页面不显示全局助手（因为页面有自己的完整面板）
-  if (location.pathname === '/ai-chat') {
-    return null;
-  }
 
   const industryPrompts: IndustryPrompt[] = [
     { id: 1, label: '跨境电商爆品趋势', prompt: '跨境电商：帮我分析最近7天美国站点的爆品趋势' },
