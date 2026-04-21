@@ -19,40 +19,31 @@ interface Position {
  */
 export function AIAssistant() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [position, setPosition] = useState<Position>({ x: 20, y: 80 });
+  const [position, setPosition] = useState<Position>({ x: 20, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
+  const hasMoved = useRef(false);
   const dragOffset = useRef<Position>({ x: 0, y: 0 });
   const fabRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
 
-  // 从本地存储加载位置
-  useEffect(() => {
-    const savedPosition = localStorage.getItem('opc_ai_fab_position');
-    if (savedPosition) {
-      try {
-        setPosition(JSON.parse(savedPosition));
-      } catch (e) {
-        console.warn('Failed to parse saved FAB position');
-      }
-    }
-  }, []);
-
-  // 保存位置到本地存储
-  const savePosition = useCallback((pos: Position) => {
-    localStorage.setItem('opc_ai_fab_position', JSON.stringify(pos));
+  // 保存位置到本地存储（已禁用，确保每次刷新都回到初始位置）
+  const savePosition = useCallback((_pos: Position) => {
+    // 暂不保存位置，确保每次刷新都回到初始位置
+    // localStorage.setItem('opc_ai_fab_position', JSON.stringify(_pos));
   }, []);
 
   // 开始拖拽
   const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
     setIsDragging(true);
+    hasMoved.current = false;
 
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
+    // right/bottom 定位：记录鼠标位置和当前位置的和
     dragOffset.current = {
-      x: clientX - position.x,
-      y: clientY - position.y,
+      x: clientX + position.x,
+      y: clientY + position.y,
     };
   }, [position]);
 
@@ -63,18 +54,21 @@ export function AIAssistant() {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
+    hasMoved.current = true;
+
+    // right/bottom 定位：反转计算
     const newPosition = {
-      x: clientX - dragOffset.current.x,
-      y: clientY - dragOffset.current.y,
+      x: dragOffset.current.x - clientX,
+      y: dragOffset.current.y - clientY,
     };
 
-    // 限制在视口范围内
-    const maxX = window.innerWidth - 60;
-    const maxY = window.innerHeight - 60;
+    // 限制在合理范围内（right/bottom 定位）
+    const maxRight = window.innerWidth - 60;
+    const maxBottom = window.innerHeight - 60;
 
     const boundedPosition = {
-      x: Math.max(10, Math.min(newPosition.x, maxX)),
-      y: Math.max(10, Math.min(newPosition.y, maxY)),
+      x: Math.max(10, Math.min(newPosition.x, maxRight)),
+      y: Math.max(10, Math.min(newPosition.y, maxBottom)),
     };
 
     setPosition(boundedPosition);
@@ -84,7 +78,10 @@ export function AIAssistant() {
   const handleDragEnd = useCallback(() => {
     if (isDragging) {
       setIsDragging(false);
-      savePosition(position);
+      if (hasMoved.current) {
+        savePosition(position);
+      }
+      hasMoved.current = false;
     }
   }, [isDragging, position, savePosition]);
 
@@ -121,13 +118,20 @@ export function AIAssistant() {
     window.location.href = '/ai-chat?prompt=' + encodeURIComponent(prompt);
   };
 
+  // 处理按钮点击（只有在没有拖拽时才触发）
+  const handleClick = useCallback(() => {
+    if (!hasMoved.current) {
+      setIsPanelOpen(!isPanelOpen);
+    }
+  }, [isPanelOpen]);
+
   return (
     <div
       className="assistant-wrap"
       style={{
         position: 'fixed',
-        left: `${position.x}px`,
-        top: `${position.y}px`,
+        right: `${position.x}px`,
+        bottom: `${position.y}px`,
         zIndex: 1000,
       }}
     >
@@ -135,7 +139,7 @@ export function AIAssistant() {
         ref={fabRef}
         className="chat-fab"
         aria-label="打开行业AI助手"
-        onClick={() => setIsPanelOpen(!isPanelOpen)}
+        onClick={handleClick}
         onMouseDown={handleDragStart}
         onTouchStart={handleDragStart}
         style={{

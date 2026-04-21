@@ -754,10 +754,9 @@ button {
 
 .assistant-wrap {
   position: fixed;
-  left: 1460px;
-  top: 660px;
+  right: 20px;
+  bottom: 20px;
   z-index: 1000;
-  transition: transform 0.1s ease-out;
 }
 
 .chat-fab {
