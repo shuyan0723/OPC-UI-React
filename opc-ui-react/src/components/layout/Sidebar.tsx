@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { navigationGroups } from '@utils/navigationConfig';
 import { useLocalStorage } from '@hooks';
@@ -11,21 +11,20 @@ interface PersonalizationItem {
 
 /**
  * Sidebar - 侧边导航栏组件
- * 支持个性化设置的悬停子菜单
+ * 支持个性化设置的悬停子菜单（纯 CSS 实现）
  */
 export function Sidebar() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [groupState, setGroupState] = useLocalStorage<Record<string, boolean>>('opc_nav_group_state', {});
-  const [personalizationHover, setPersonalizationHover] = useState<boolean>(false);
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const submenuRef = useRef<HTMLDivElement>(null);
+  const [submenuPosition, setSubmenuPosition] = useState<{ top: number; left: number } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 个性化设置子菜单项
   const personalizationItems: PersonalizationItem[] = [
-    { href: '/personalization?section=industry', label: '行业定制', section: 'industry' },
-    { href: '/personalization?section=role', label: '角色定制', section: 'role' },
-    { href: '/personalization?section=stage', label: '阶段定制', section: 'stage' },
+    { href: '/personalization#industry', label: '行业定制', section: 'industry' },
+    { href: '/personalization#role', label: '角色定制', section: 'role' },
+    { href: '/personalization#stage', label: '阶段定制', section: 'stage' },
   ];
 
   // 获取当前激活的路径
@@ -53,59 +52,65 @@ export function Sidebar() {
     }));
   };
 
-  // 处理个性化设置悬停
-  const handlePersonalizationMouseEnter = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
+  // 检查是否在个性化设置页面
+  const isPersonalizationActive = currentPath === 'personalization';
+
+  // 处理悬停时动态定位子菜单
+  const handleMouseEnter = () => {
+    // 清除延迟隐藏的定时器
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
     }
-    setPersonalizationHover(true);
+    // 计算并显示子菜单
+    if (wrapperRef.current) {
+      const rect = wrapperRef.current.getBoundingClientRect();
+      setSubmenuPosition({
+        top: rect.top,
+        left: rect.right + 8,
+      });
+    }
   };
 
-  const handlePersonalizationMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    // 延迟隐藏，允许用户移动到子菜单
-    hoverTimeoutRef.current = setTimeout(() => {
-      setPersonalizationHover(false);
+  const handleMouseLeave = () => {
+    // 延迟隐藏，给用户时间移动到子菜单
+    hoverTimerRef.current = setTimeout(() => {
+      setSubmenuPosition(null);
     }, 200);
   };
 
-  const handleSubmenuMouseEnter = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
+  const handleSubmenuEnter = () => {
+    // 进入子菜单，取消隐藏
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
     }
-    setPersonalizationHover(true);
   };
 
-  const handleSubmenuMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    hoverTimeoutRef.current = setTimeout(() => {
-      setPersonalizationHover(false);
+  const handleSubmenuLeave = () => {
+    // 离开子菜单，延迟隐藏
+    hoverTimerRef.current = setTimeout(() => {
+      setSubmenuPosition(null);
     }, 200);
   };
 
-  // 处理个性化子菜单点击（只有点击才导航）
-  const handlePersonalizationClick = (e: React.MouseEvent, item: PersonalizationItem) => {
+  // 处理子菜单项点击，滚动到对应区域
+  const handleSubmenuClick = (e: React.MouseEvent, section: string) => {
     e.preventDefault();
-    e.stopPropagation();
-    setPersonalizationHover(false);
-    navigate(item.href);
+    // 隐藏子菜单
+    setSubmenuPosition(null);
+    // 跳转到页面
+    window.location.href = `/personalization#${section}`;
   };
 
-  // 清理定时器
+  // 组件卸载时清理定时器
   useEffect(() => {
     return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
       }
     };
   }, []);
-
-  // 检查是否在个性化设置页面
-  const isPersonalizationActive = currentPath === 'personalization';
 
   return (
     <aside className="sidebar">
@@ -135,9 +140,10 @@ export function Sidebar() {
                   return (
                     <div
                       key={item.href}
+                      ref={wrapperRef}
                       className="nav-personalization-wrapper"
-                      onMouseEnter={handlePersonalizationMouseEnter}
-                      onMouseLeave={handlePersonalizationMouseLeave}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
                     >
                       <NavLink
                         to={`/${item.href}`}
@@ -148,21 +154,25 @@ export function Sidebar() {
                         {item.label}
                         <span className="submenu-arrow">▸</span>
                       </NavLink>
-                      {personalizationHover && (
+                      {submenuPosition && (
                         <div
-                          ref={submenuRef}
                           className="personalization-submenu"
-                          onMouseEnter={handleSubmenuMouseEnter}
-                          onMouseLeave={handleSubmenuMouseLeave}
+                          style={{
+                            top: `${submenuPosition.top}px`,
+                            left: `${submenuPosition.left}px`,
+                          }}
+                          onMouseEnter={handleSubmenuEnter}
+                          onMouseLeave={handleSubmenuLeave}
                         >
                           {personalizationItems.map((subItem) => (
-                            <button
+                            <a
                               key={subItem.section}
+                              href={subItem.href}
                               className="personalization-submenu-item"
-                              onClick={(e) => handlePersonalizationClick(e, subItem)}
+                              onClick={(e) => handleSubmenuClick(e, subItem.section)}
                             >
                               {subItem.label}
-                            </button>
+                            </a>
                           ))}
                         </div>
                       )}

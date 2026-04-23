@@ -323,29 +323,7 @@ export default function Personalization() {
       <div className="breadcrumb">配置中心 / 个性化设置</div>
       <h1 className="page-title">个性化定制</h1>
 
-      <div className="three-col">
-        {/* 左侧导航 */}
-        <section className="card config-nav">
-          <a
-            className={`nav-item ${activeSection === 'industry' ? 'active' : ''}`}
-            onClick={() => setActiveSection('industry')}
-          >
-            行业定制
-          </a>
-          <a
-            className={`nav-item ${activeSection === 'role' ? 'active' : ''}`}
-            onClick={() => setActiveSection('role')}
-          >
-            角色定制
-          </a>
-          <a
-            className={`nav-item ${activeSection === 'stage' ? 'active' : ''}`}
-            onClick={() => setActiveSection('stage')}
-          >
-            阶段定制
-          </a>
-        </section>
-
+      <div className="personalization-layout">
         {/* 中间内容区 */}
         <section>
           {/* 行业模板 */}

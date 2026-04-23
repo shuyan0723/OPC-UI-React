@@ -12,6 +12,11 @@
   --sidebar-width: 200px;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -166,22 +171,15 @@ a {
   transition: transform 0.2s;
 }
 
-.nav-personalization-wrapper:hover .submenu-arrow {
-  transform: rotate(90deg);
-}
-
 .personalization-submenu {
-  position: absolute;
-  left: 100%;
-  top: 0;
-  margin-left: 8px;
+  position: fixed;
+  min-width: 140px;
+  padding: 6px;
+  z-index: 1000;
   background: var(--white);
   border: 1px solid #e8ebf0;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(31, 35, 41, 0.12);
-  min-width: 140px;
-  padding: 6px;
-  z-index: 100;
   animation: slideIn 0.2s ease-out;
 }
 
@@ -200,11 +198,7 @@ a {
   display: block;
   width: 100%;
   padding: 8px 12px;
-  border: none;
-  background: transparent;
-  text-align: left;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 13px;
   color: var(--text);
   transition: all 0.15s;
@@ -215,8 +209,9 @@ a {
   color: var(--primary);
 }
 
-.personalization-submenu-item:active {
-  background: #d6e4ff;
+.personalization-submenu-item.active {
+  background: var(--primary);
+  color: #fff;
 }
 
 .main {
@@ -478,6 +473,17 @@ button {
   color: var(--primary);
 }
 
+/* 个性化设置页面布局 - 占满屏幕 */
+.personalization-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+}
+
+.personalization-layout > section:first-child {
+  min-width: 0;
+}
+
 .three-col {
   display: grid;
   grid-template-columns: 220px 1fr 300px;
@@ -490,7 +496,7 @@ button {
 
 .template-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -1027,6 +1033,10 @@ button {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  .template-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
   .main {
     padding: 20px;
   }
@@ -1051,7 +1061,8 @@ button {
   }
 
   .template-grid,
-  .three-col {
+  .three-col,
+  .personalization-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1225,7 +1236,8 @@ button {
   .grid.cols-2,
   .kanban,
   .template-grid,
-  .three-col {
+  .three-col,
+  .personalization-layout {
     grid-template-columns: 1fr;
   }
 
