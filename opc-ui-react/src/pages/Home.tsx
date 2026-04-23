@@ -7,7 +7,7 @@ export function Home() {
   return (
     <>
       <div className="breadcrumb">首页 / 总览</div>
-      <h1 className="page-title">OPC场景 AI运营官总览</h1>
+      <h1 className="page-title">AI运营官总览</h1>
 
       <section className="card">
         <div className="grid cols-4">
