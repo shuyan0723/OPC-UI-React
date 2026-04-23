@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { WorkflowBuilder } from '@components/workflow/WorkflowBuilder';
 
 interface Template {
   id: string;
@@ -766,6 +767,11 @@ export default function Personalization() {
                 </label>
               </div>
             </div>
+          </div>
+
+          {/* 工作流配置 */}
+          <div className="card" id="workflow">
+            <WorkflowBuilder />
           </div>
 
           {/* 发展阶段 */}
