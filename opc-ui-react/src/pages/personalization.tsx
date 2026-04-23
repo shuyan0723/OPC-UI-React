@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 interface Template {
@@ -65,12 +65,25 @@ export default function Personalization() {
   const [showStrategyModal, setShowStrategyModal] = useState<boolean>(false);
   const [selectedIndustryCategory, setSelectedIndustryCategory] = useState<string>('全部行业');
   const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
+  const industrySectionRef = useRef<HTMLDivElement>(null);
 
   // 当 URL 参数变化时更新 activeSection
   useEffect(() => {
     const section = searchParams.get('section');
     if (section) {
       setActiveSection(section);
+    }
+  }, [searchParams]);
+
+  // 处理从其他页面跳转带来的 template 参数
+  useEffect(() => {
+    const templateParam = searchParams.get('template');
+    if (templateParam) {
+      setSelectedTemplate(templateParam);
+      // 滚动到行业模板区域
+      setTimeout(() => {
+        industrySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }, [searchParams]);
 
@@ -645,7 +658,7 @@ export default function Personalization() {
         {/* 主内容区 */}
         <section>
           {/* 行业模板 */}
-          <div className="card" id="industry">
+          <div className="card" id="industry" ref={industrySectionRef}>
             <h3>行业模板选择</h3>
             <select
               value={selectedIndustryCategory}
