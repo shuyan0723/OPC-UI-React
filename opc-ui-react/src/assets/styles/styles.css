@@ -572,7 +572,7 @@ button {
   margin-bottom: 10px;
   display: flex;
   gap: 12px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .stage-item.active {

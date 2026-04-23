@@ -453,6 +453,22 @@ export default function Personalization() {
                 </div>
               )}
             </div>
+
+            {/* 未设置成立时间时的提示 */}
+            {!foundedDate && (
+              <div style={{
+                padding: '16px',
+                background: '#f0f7ff',
+                borderLeft: '3px solid var(--primary)',
+                borderRadius: '4px',
+                color: 'var(--text-secondary)',
+                fontSize: '13px',
+                marginBottom: '12px'
+              }}>
+                请先设置企业成立时间，系统将自动判定企业发展阶段
+              </div>
+            )}
+
             {stages.map((stage) => (
               <div
                 key={stage.id}
