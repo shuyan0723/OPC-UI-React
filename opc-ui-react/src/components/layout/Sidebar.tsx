@@ -18,6 +18,7 @@ export function Sidebar() {
   const [groupState, setGroupState] = useLocalStorage<Record<string, boolean>>('opc_nav_group_state', {});
   const [submenuPosition, setSubmenuPosition] = useState<{ top: number; left: number } | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const submenuRef = useRef<HTMLDivElement>(null);
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 个性化设置子菜单项
@@ -72,28 +73,6 @@ export function Sidebar() {
     }
   };
 
-  const handleMouseLeave = () => {
-    // 延迟隐藏，给用户时间移动到子菜单
-    hoverTimerRef.current = setTimeout(() => {
-      setSubmenuPosition(null);
-    }, 200);
-  };
-
-  const handleSubmenuEnter = () => {
-    // 进入子菜单，取消隐藏
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
-    }
-  };
-
-  const handleSubmenuLeave = () => {
-    // 离开子菜单，延迟隐藏
-    hoverTimerRef.current = setTimeout(() => {
-      setSubmenuPosition(null);
-    }, 200);
-  };
-
   // 处理子菜单项点击，滚动到对应区域
   const handleSubmenuClick = (e: React.MouseEvent, section: string) => {
     e.preventDefault();
@@ -102,6 +81,47 @@ export function Sidebar() {
     // 跳转到页面
     window.location.href = `/personalization#${section}`;
   };
+
+  // 全局鼠标追踪：检测鼠标是否在区域内
+  useEffect(() => {
+    if (!submenuPosition) return;
+
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      const target = e.target as Node;
+
+      // 检查鼠标是否在父按钮内
+      const isInParent = wrapperRef.current?.contains(target);
+
+      // 检查鼠标是否在子菜单内
+      const isInSubmenu = submenuRef.current?.contains(target);
+
+      if (isInParent || isInSubmenu) {
+        // 鼠标在区域内，取消隐藏定时器
+        if (hoverTimerRef.current) {
+          clearTimeout(hoverTimerRef.current);
+          hoverTimerRef.current = null;
+        }
+      } else {
+        // 鼠标在区域外，启动延迟隐藏
+        if (!hoverTimerRef.current) {
+          hoverTimerRef.current = setTimeout(() => {
+            setSubmenuPosition(null);
+          }, 300);
+        }
+      }
+    };
+
+    // 监听全局鼠标移动
+    document.addEventListener('mousemove', handleGlobalMouseMove);
+
+    return () => {
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      // 清理定时器
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, [submenuPosition]);
 
   // 组件卸载时清理定时器
   useEffect(() => {
@@ -143,7 +163,6 @@ export function Sidebar() {
                       ref={wrapperRef}
                       className="nav-personalization-wrapper"
                       onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
                     >
                       <NavLink
                         to={`/${item.href}`}
@@ -155,16 +174,28 @@ export function Sidebar() {
                         <span className="submenu-arrow">▸</span>
                       </NavLink>
                       {submenuPosition && (
-                        <div
-                          className="personalization-submenu"
-                          style={{
-                            top: `${submenuPosition.top}px`,
-                            left: `${submenuPosition.left}px`,
-                          }}
-                          onMouseEnter={handleSubmenuEnter}
-                          onMouseLeave={handleSubmenuLeave}
-                        >
-                          {personalizationItems.map((subItem) => (
+                        <>
+                          {/* 透明桥：连接父按钮和子菜单，消除间隙 */}
+                          <div
+                            className="submenu-bridge"
+                            style={{
+                              position: 'fixed',
+                              top: `${submenuPosition.top + 8}px`,
+                              left: `${submenuPosition.left - 8}px`,
+                              width: '8px',
+                              height: 'calc(100% - 16px)',
+                              pointerEvents: 'auto',
+                            }}
+                          />
+                          <div
+                            ref={submenuRef}
+                            className="personalization-submenu"
+                            style={{
+                              top: `${submenuPosition.top}px`,
+                              left: `${submenuPosition.left}px`,
+                            }}
+                          >
+                            {personalizationItems.map((subItem) => (
                             <a
                               key={subItem.section}
                               href={subItem.href}
@@ -175,10 +206,11 @@ export function Sidebar() {
                             </a>
                           ))}
                         </div>
-                      )}
-                    </div>
-                  );
-                }
+                      </>
+                    )}
+                  </div>
+                );
+              }
 
                 return (
                   <NavLink
