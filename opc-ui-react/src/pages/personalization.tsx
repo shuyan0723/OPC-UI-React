@@ -7,6 +7,7 @@ interface Template {
   description: string;
   features: string[];
   selected: boolean;
+  category: string;
 }
 
 interface Role {
@@ -36,6 +37,8 @@ export default function Personalization() {
   const [foundedDate, setFoundedDate] = useState<string>('');
   const [isEditingDate, setIsEditingDate] = useState<boolean>(false);
   const [showStrategyModal, setShowStrategyModal] = useState<boolean>(false);
+  const [selectedIndustryCategory, setSelectedIndustryCategory] = useState<string>('全部行业');
+  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   // 当 URL 参数变化时更新 activeSection
   useEffect(() => {
@@ -45,10 +48,26 @@ export default function Personalization() {
     }
   }, [searchParams]);
 
+  // 行业分类列表
+  const industryCategories = [
+    '全部行业',
+    '内容创作',
+    '电商零售',
+    '教育培训',
+    '生活服务',
+    '企业服务',
+    '生产制造',
+    '金融科技',
+    '医疗健康',
+    '房产',
+    '旅游',
+  ];
+
   const templates: Template[] = [
     {
       id: 'social-media',
       name: '自媒体运营',
+      category: '内容创作',
       description: '内容创作、粉丝运营、广告变现',
       features: ['内容日历', 'AI文案生成', '粉丝画像分析', '广告智能报价', '爆文趋势预测', '竞品监控', '流量转化分析', '多平台发布', '评论管理', '私信自动回复'],
       selected: true,
@@ -56,6 +75,7 @@ export default function Personalization() {
     {
       id: 'ecommerce',
       name: '跨境电商',
+      category: '电商零售',
       description: '商品管理、订单处理、供应链优化',
       features: ['库存智能预警', '全链路订单跟踪', '物流自动对接', 'AI选品分析', '动态定价策略', '海外仓管理', '关税计算', '多币种结算', '退换货处理', '好评管理'],
       selected: false,
@@ -63,6 +83,7 @@ export default function Personalization() {
     {
       id: 'knowledge',
       name: '知识付费',
+      category: '教育培训',
       description: '课程制作、学员管理、收益分析',
       features: ['课程版权保护', '学员学习跟踪', '智能收益分成', '完课率深度分析', '复购率预测模型', '社群运营工具', '直播互动', '作业批改', '证书发放', '拼团分销'],
       selected: false,
@@ -70,6 +91,7 @@ export default function Personalization() {
     {
       id: 'local-life',
       name: '本地生活',
+      category: '生活服务',
       description: '门店管理、团购核销、会员运营',
       features: ['多门店管理', '团购活动配置', '核销数据统计', '会员分层运营', '智能优惠券', '评价情感分析', 'LBS精准营销', '到店核销', '外卖对接', '商家联盟'],
       selected: false,
@@ -77,6 +99,7 @@ export default function Personalization() {
     {
       id: 'saas',
       name: 'SaaS软件',
+      category: '企业服务',
       description: '用户增长、订阅管理、客户成功',
       features: ['PLG增长引擎', '灵活订阅计费', '客户健康度监控', '流失预警模型', '产品使用分析', 'NPS自动调研', '客户成功工单', '增购机会识别', '续约提醒', '客户分层运营'],
       selected: false,
@@ -84,6 +107,7 @@ export default function Personalization() {
     {
       id: 'retail',
       name: '新零售连锁',
+      category: '电商零售',
       description: '全渠道销售、会员统一、库存共享',
       features: ['全渠道订单中心', '会员统一画像', '智能补货算法', '促销活动引擎', '导购数字化', '门店自提', '即时零售对接', '品类分析', '价格带管理', '会员权益中心'],
       selected: false,
@@ -91,6 +115,7 @@ export default function Personalization() {
     {
       id: 'manufacturing',
       name: '智能制造',
+      category: '生产制造',
       description: '生产计划、质量控制、设备维护',
       features: ['APS智能排程', '全程质量追溯', '预测性设备维保', '供应商协同平台', '能耗实时监控', '安全生产预警', 'BOM管理', '工艺路线优化', '产能负荷分析', '外协管理'],
       selected: false,
@@ -98,6 +123,7 @@ export default function Personalization() {
     {
       id: 'logistics',
       name: '智慧物流',
+      category: '企业服务',
       description: '运输调度、仓储管理、路径优化',
       features: ['智能调度算法', 'WMS仓储管理', '动态路径规划', '运力智能匹配', '全程时效监控', '成本分析模型', '电子回单', '异常预警', '网点管理', '结算中心'],
       selected: false,
@@ -105,6 +131,7 @@ export default function Personalization() {
     {
       id: 'finance',
       name: '金融服务',
+      category: '金融科技',
       description: '风险评估、投资决策、合规管理',
       features: ['实时风控引擎', '智能投顾组合', '合规自动检查', 'KYC/AML筛查', '反欺诈模型', '征信对接', '产品工厂', '利率定价', '催收管理', '监管报送'],
       selected: false,
@@ -112,6 +139,7 @@ export default function Personalization() {
     {
       id: 'healthcare',
       name: '医疗健康',
+      category: '医疗健康',
       description: '患者管理、诊疗流程、健康档案',
       features: ['智能预约挂号', '结构化电子病历', '慢病随访管理', '远程问诊平台', '处方流转', '药品库存管理', '检验结果查询', '健康档案', '患者教育', '满意度调查'],
       selected: false,
@@ -119,6 +147,7 @@ export default function Personalization() {
     {
       id: 'education',
       name: '在线教育',
+      category: '教育培训',
       description: '课程教学、学习跟踪、家校沟通',
       features: ['互动直播课堂', 'AI作业批改', '学情分析报告', '家校互通平台', '智能题库', '在线考试', '学习路径规划', '教师评价', '课程推荐', '学习进度追踪'],
       selected: false,
@@ -126,6 +155,7 @@ export default function Personalization() {
     {
       id: 'realestate',
       name: '房地产经纪',
+      category: '房产',
       description: '房源管理、客户跟进、交易流程',
       features: ['房源采集发布', '客户跟进系统', 'VR带看', '电子签约', '佣金自动结算', '市场行情分析', '房源勘探', '带看管理', '业绩统计', '房源分销'],
       selected: false,
@@ -133,6 +163,7 @@ export default function Personalization() {
     {
       id: 'restaurant',
       name: '餐饮连锁',
+      category: '电商零售',
       description: '门店运营、菜品管理、供应链采购',
       features: ['云POS收银', '菜品工程管理', '央厨生产管理', '智能采购下单', '标准成本核算', '会员营销引擎', '外卖平台对接', '厨房显示系统', '排队叫号', '扫码点餐'],
       selected: false,
@@ -140,6 +171,7 @@ export default function Personalization() {
     {
       id: 'beauty',
       name: '美业连锁',
+      category: '生活服务',
       description: '预约管理、技师排班、会员卡管理',
       features: ['在线预约', '技师排班', '会员卡系统', '疗程管理', '库存管理', '提成计算', '服务评价', '营销活动', '门店数据分析', '智能提醒'],
       selected: false,
@@ -147,6 +179,7 @@ export default function Personalization() {
     {
       id: 'fitness',
       name: '健身运动',
+      category: '生活服务',
       description: '会员管理、课程预约、体测分析',
       features: ['会员签到', '团课预约', '私教管理', '体测数据分析', '训练计划', '营养建议', '装备租赁', '储物柜管理', '活动发布', '会员社区'],
       selected: false,
@@ -154,6 +187,7 @@ export default function Personalization() {
     {
       id: 'travel',
       name: '旅游出行',
+      category: '旅游',
       description: '行程规划、订单管理、导游服务',
       features: ['智能行程规划', '多产品预订', '导游派单', '电子合同', '保险对接', '评价系统', '会员积分', '营销活动', '财务结算', '数据报表'],
       selected: false,
@@ -433,6 +467,11 @@ export default function Personalization() {
     setSelectedTemplate(templateId);
   };
 
+  // 根据选中的行业分类筛选模板
+  const filteredTemplates = selectedIndustryCategory === '全部行业'
+    ? templates
+    : templates.filter(t => t.category === selectedIndustryCategory);
+
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFoundedDate(e.target.value);
   };
@@ -486,13 +525,35 @@ export default function Personalization() {
       <h1 className="page-title">个性化定制</h1>
 
       <div className="personalization-layout">
-        {/* 中间内容区 */}
+        {/* 预览模式按钮 */}
+        <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            className="btn-primary"
+            onClick={() => setShowPreviewModal(true)}
+            style={{ padding: '10px 24px' }}
+          >
+            预览模式
+          </button>
+        </div>
+
+        {/* 主内容区 */}
         <section>
           {/* 行业模板 */}
           <div className="card" id="industry">
             <h3>行业模板选择</h3>
+            <select
+              value={selectedIndustryCategory}
+              onChange={(e) => setSelectedIndustryCategory(e.target.value)}
+              style={{ marginBottom: '16px', padding: '8px 12px', minWidth: '150px' }}
+            >
+              {industryCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
             <div className="template-grid">
-              {templates.map((template) => (
+              {filteredTemplates.map((template) => (
                 <div
                   key={template.id}
                   className={`template-card ${selectedTemplate === template.name ? 'selected' : ''} cursor-pointer`}
@@ -524,6 +585,15 @@ export default function Personalization() {
           {/* 角色视角 */}
           <div className="card" id="role">
             <h3>角色视角设置</h3>
+            <select
+              defaultValue="default"
+              style={{ marginBottom: '16px', padding: '8px 12px', minWidth: '200px' }}
+            >
+              <option value="default">默认配置</option>
+              <option value="ceo-growth">CEO增长型模板</option>
+              <option value="ceo-stable">CEO稳健型模板</option>
+              <option value="ceo-startup">CEO创业型模板</option>
+            </select>
             <div className="role-tabs">
               {roles.map((role) => (
                 <button
@@ -549,6 +619,34 @@ export default function Personalization() {
               )
             ))}
             <button className="mt-10">恢复默认</button>
+
+            {/* CEO工作流 */}
+            <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #e8ebf0' }}>
+              <h4 style={{ marginBottom: '12px' }}>CEO工作流</h4>
+              <div className="status-row" style={{ marginBottom: '12px' }}>
+                <span className="status-item active">每日晨会</span>
+                <span className="status-item active">数据复盘</span>
+                <span className="status-item">战略对齐</span>
+                <span className="status-item">投资路演</span>
+              </div>
+              <div className="list-card">
+                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  <strong>待办事项</strong>
+                </p>
+                <label className="checkbox-item" style={{ margin: '4px 0' }}>
+                  <input type="checkbox" />
+                  审阅昨日核心指标
+                </label>
+                <label className="checkbox-item" style={{ margin: '4px 0' }}>
+                  <input type="checkbox" />
+                  批准关键决策事项
+                </label>
+                <label className="checkbox-item" style={{ margin: '4px 0' }}>
+                  <input type="checkbox" />
+                  与部门负责人同步进度
+                </label>
+              </div>
+            </div>
           </div>
 
           {/* 发展阶段 */}
@@ -654,26 +752,62 @@ export default function Personalization() {
             </button>
           </div>
         </section>
-
-        {/* 右侧预览 */}
-        <section className="card">
-          <h3>实时预览</h3>
-          <div className="preview-box">
-            <p>
-              当前行业模板：<strong>{selectedTemplate}</strong>
-            </p>
-            <p>
-              当前角色：<strong>{roles.find((r) => r.id === activeRole)?.name}</strong>
-            </p>
-            <p>
-              当前阶段：<strong>{stages.find((s) => s.id === selectedStage)?.name}</strong>
-            </p>
-            <p>
-              已选指标：<span>{roles.find((r) => r.id === activeRole)?.metrics.slice(0, 2).join('、')}</span>
-            </p>
-          </div>
-        </section>
       </div>
+
+      {/* 全屏预览模态框 */}
+      {showPreviewModal && (
+        <div className="modal-backdrop show">
+          <div className="modal" style={{ maxWidth: '800px', width: '92vw' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ margin: 0 }}>配置预览</h3>
+              <button onClick={() => setShowPreviewModal(false)} style={{ padding: '6px 16px' }}>关闭</button>
+            </div>
+
+            <div style={{ background: '#f8faff', padding: '20px', borderRadius: '8px', marginBottom: '16px' }}>
+              <h4 style={{ marginTop: 0, marginBottom: '12px' }}>当前配置概览</h4>
+
+              <div style={{ marginBottom: '16px' }}>
+                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>行业模板</p>
+                <div style={{ fontSize: '16px', fontWeight: '600' }}>{selectedTemplate}</div>
+                <p style={{ margin: '8px 0 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  {templates.find(t => t.name === selectedTemplate)?.description}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>角色视角</p>
+                <div style={{ fontSize: '16px', fontWeight: '600' }}>{roles.find((r) => r.id === activeRole)?.name}</div>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>发展阶段</p>
+                <div style={{ fontSize: '16px', fontWeight: '600' }}>
+                  {stages.find((s) => s.id === selectedStage)?.name || '未设置'}
+                </div>
+                {stageInfo.stage && (
+                  <p style={{ margin: '8px 0 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                    已成立 {stageInfo.years}年 {stageInfo.months}月
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>核心指标</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {roles.find((r) => r.id === activeRole)?.metrics.slice(0, 8).map((metric, index) => (
+                    <span key={index} className="status-item active">{metric}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button className="btn-outline" onClick={() => setShowPreviewModal(false)}>继续编辑</button>
+              <button className="btn-primary" onClick={() => setShowPreviewModal(false)}>保存配置</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 阶段策略模态框 */}
       {showStrategyModal && (
