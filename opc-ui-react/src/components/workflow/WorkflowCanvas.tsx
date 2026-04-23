@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import type { CanvasNode, CanvasEdge, WorkflowModule } from '@data/workflowModules';
+import type { CanvasNode, CanvasEdge, WorkflowModule } from '../../data/workflowModules';
 
 interface WorkflowCanvasProps {
   onNodesChange?: (nodes: CanvasNode[]) => void;
@@ -23,7 +23,8 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
-    const moduleData = JSON.parse(e.dataTransfer.getData('workflow-module') as WorkflowModule);
+    const dataStr = e.dataTransfer.getData('workflow-module');
+    const moduleData = JSON.parse(dataStr) as WorkflowModule;
 
     // 计算放置位置
     const rect = canvasRef.current?.getBoundingClientRect();

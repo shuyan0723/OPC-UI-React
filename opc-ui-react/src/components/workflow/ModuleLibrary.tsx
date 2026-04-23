@@ -1,4 +1,4 @@
-import { workflowModules, moduleCategories, type WorkflowModule } from '@data/workflowModules';
+import { workflowModules, moduleCategories, type WorkflowModule } from '../../data/workflowModules';
 
 interface ModuleLibraryProps {
   onModuleDragStart?: (module: WorkflowModule) => void;
