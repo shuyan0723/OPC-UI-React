@@ -22,6 +22,32 @@ interface Stage {
   description: string;
 }
 
+interface ProcessNode {
+  id: string;
+  name: string;
+  description: string;
+  metrics: string[];
+}
+
+interface CaseStudy {
+  id: string;
+  company: string;
+  title: string;
+  description: string;
+  results: string[];
+}
+
+interface IndustryContent {
+  overview: {
+    definition: string;
+    marketScale: string;
+    businessModel: string;
+    successFactors: string[];
+  };
+  processes: ProcessNode[];
+  cases: CaseStudy[];
+}
+
 /**
  * Personalization - 个性化定制页面
  */
@@ -463,6 +489,86 @@ export default function Personalization() {
     { id: 'mature', name: '成熟期', description: '稳定运营、持续创新' },
   ];
 
+  // 行业内容数据（预览模式用）
+  const industryContentData: Record<string, IndustryContent> = {
+    '自媒体运营': {
+      overview: {
+        definition: '自媒体运营是通过创作优质内容，在各大社交平台积累粉丝，实现内容变现的商业形态。核心在于持续产出有价值的内容，建立个人IP或品牌影响力。',
+        marketScale: '2026年中国自媒体市场规模预计突破5000亿元，用户规模达6.5亿，年增长率保持在15%以上。',
+        businessModel: '广告变现、内容付费、直播带货、知识付费、粉丝社群、品牌合作等多元化变现模式。',
+        successFactors: ['持续优质内容产出', '精准粉丝定位', '多平台矩阵运营', '商业化路径清晰', '数据驱动优化'],
+      },
+      processes: [
+        {
+          id: 'content-create',
+          name: '内容创作',
+          description: '策划选题 → 内容制作 → 质量审核 → 发布推广',
+          metrics: ['内容产出量', '原创度', '完读率', '互动率'],
+        },
+        {
+          id: 'fan-operation',
+          name: '粉丝运营',
+          description: '粉丝画像分析 → 分层运营 → 社群互动 → 活跃度提升',
+          metrics: ['粉丝增长率', '活跃度', '留存率', '转化率'],
+        },
+        {
+          id: 'monetization',
+          name: '商业变现',
+          description: '流量分析 → 变现路径设计 → 商务对接 → 收益优化',
+          metrics: ['变现收入', 'ROI', '客单价', '复购率'],
+        },
+      ],
+      cases: [
+        {
+          id: 'case-1',
+          company: '李子柒',
+          title: '文化IP出海',
+          description: '以中国传统文化内容为核心，通过短视频平台传播，YouTube粉丝超1700万，成功实现内容全球化输出。',
+          results: ['YouTube订阅量全球排名前50', '品牌估值超10亿元', '带动家乡农产品销售'],
+        },
+        {
+          id: 'case-2',
+          company: '罗辑思维',
+          title: '知识付费转型',
+          description: '从自媒体账号转型为知识服务平台「得到」，完成从内容创作者到平台运营商的成功升级。',
+          results: ['App用户超4000万', '年营收超10亿元', '成功上市'],
+        },
+      ],
+    },
+    '跨境电商': {
+      overview: {
+        definition: '跨境电商是指分属不同关境的交易主体，通过电子商务平台达成交易、进行支付结算，并通过跨境物流送达商品、完成交易的国际商业活动。',
+        marketScale: '2026年中国跨境电商市场规模达15万亿元，进出口规模持续扩大，政策红利持续释放。',
+        businessModel: 'B2C直营、B2B平台、跨境物流服务、海外仓、跨境支付、供应链金融等。',
+        successFactors: ['选品能力', '供应链整合', '本地化运营', '合规管理', '用户体验'],
+      },
+      processes: [
+        {
+          id: 'product-select',
+          name: '选品策略',
+          description: '市场调研 → 数据分析 → 选品决策 → 供应链对接',
+          metrics: ['选品准确率', '库存周转率', '毛利率', '退货率'],
+        },
+        {
+          id: 'logistics',
+          name: '跨境物流',
+          description: '物流方案设计 → 仓储管理 → 清关配送 → 售后服务',
+          metrics: ['物流时效', '妥投率', '破损率', '客户满意度'],
+        },
+      ],
+      cases: [
+        {
+          id: 'case-3',
+          company: 'SHEIN',
+          title: '快时尚跨境电商',
+          description: '以"小单快反"模式著称，通过数据驱动的选品和供应链快速响应，成为全球下载量最高的购物App之一。',
+          results: ['年营收超1000亿元', '覆盖全球150+国家', '估值超1000亿美元'],
+        },
+      ],
+    },
+    // 其他行业可后续补充
+  };
+
   const handleTemplateSelect = (templateId: string) => {
     setSelectedTemplate(templateId);
   };
@@ -800,6 +906,80 @@ export default function Personalization() {
                 </div>
               </div>
             </div>
+
+            {/* 行业顶层设计 */}
+            {industryContentData[selectedTemplate] && (
+              <div className="preview-section">
+                <h4 style={{ marginTop: 0, marginBottom: '12px' }}>行业顶层设计</h4>
+                <div style={{ marginBottom: '16px' }}>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>行业定义</p>
+                  <p style={{ margin: '0 0 12px 0', lineHeight: '1.6' }}>
+                    {industryContentData[selectedTemplate].overview.definition}
+                  </p>
+                </div>
+                <div style={{ marginBottom: '16px' }}>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>市场规模</p>
+                  <p style={{ margin: '0 0 12px 0', lineHeight: '1.6' }}>
+                    {industryContentData[selectedTemplate].overview.marketScale}
+                  </p>
+                </div>
+                <div style={{ marginBottom: '16px' }}>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>商业模式</p>
+                  <p style={{ margin: '0 0 12px 0', lineHeight: '1.6' }}>
+                    {industryContentData[selectedTemplate].overview.businessModel}
+                  </p>
+                </div>
+                <div>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>成功要素</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {industryContentData[selectedTemplate].overview.successFactors.map((factor, index) => (
+                      <span key={index} className="status-item active">{factor}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 核心流程与决策节点 */}
+            {industryContentData[selectedTemplate] && (
+              <div className="preview-section">
+                <h4 style={{ marginTop: 0, marginBottom: '12px' }}>核心流程与决策节点</h4>
+                {industryContentData[selectedTemplate].processes.map((process) => (
+                  <div key={process.id} className="process-node">
+                    <div style={{ fontWeight: '600', marginBottom: '4px' }}>{process.name}</div>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+                      {process.description}
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {process.metrics.map((metric, index) => (
+                        <span key={index} style={{ fontSize: '12px', padding: '3px 8px', background: '#f0f7ff', borderRadius: '4px', color: 'var(--primary)' }}>
+                          {metric}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 行业标杆案例 */}
+            {industryContentData[selectedTemplate] && (
+              <div className="preview-section">
+                <h4 style={{ marginTop: 0, marginBottom: '12px' }}>行业标杆案例</h4>
+                {industryContentData[selectedTemplate].cases.map((caseStudy) => (
+                  <div key={caseStudy.id} className="case-card">
+                    <div style={{ fontWeight: '600', marginBottom: '4px' }}>{caseStudy.company}</div>
+                    <div style={{ fontSize: '14px', marginBottom: '6px' }}>{caseStudy.title}</div>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px', lineHeight: '1.5' }}>
+                      {caseStudy.description}
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--success)' }}>
+                      成果：{caseStudy.results.join('、')}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
               <button className="btn-outline" onClick={() => setShowPreviewModal(false)}>继续编辑</button>

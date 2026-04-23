@@ -480,6 +480,39 @@ button {
   gap: 16px;
 }
 
+/* 预览模态框内容分节样式 */
+.preview-section {
+  padding: 16px;
+  margin-top: 16px;
+  background: #f8faff;
+  border-radius: 8px;
+}
+
+.preview-section h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 流程节点样式 */
+.process-node {
+  border: 1px solid #e8ebf0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+
+/* 案例卡片样式 */
+.case-card {
+  border: 1px solid #e8ebf0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+
 .personalization-layout > section:first-child {
   min-width: 0;
 }
