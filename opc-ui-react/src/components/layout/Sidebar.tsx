@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { navigationGroups } from '@utils/navigationConfig';
-import { useLocalStorage } from '@hooks';
+import { useLocalStorage } from '../../hooks';
 
 interface PersonalizationItem {
   href: string;
