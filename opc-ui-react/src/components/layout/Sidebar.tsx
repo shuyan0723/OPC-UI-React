@@ -11,7 +11,7 @@ interface PersonalizationItem {
 
 /**
  * Sidebar - 侧边导航栏组件
- * 支持个性化设置的悬停子菜单（纯 CSS 实现）
+ * 支持个性化定制的悬停子菜单（纯 CSS 实现）
  */
 export function Sidebar() {
   const location = useLocation();
@@ -21,7 +21,7 @@ export function Sidebar() {
   const submenuRef = useRef<HTMLDivElement>(null);
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 个性化设置子菜单项
+  // 个性化定制子菜单项
   const personalizationItems: PersonalizationItem[] = [
     { href: '/personalization#industry', label: '行业定制', section: 'industry' },
     { href: '/personalization#role', label: '角色定制', section: 'role' },
@@ -53,7 +53,7 @@ export function Sidebar() {
     }));
   };
 
-  // 检查是否在个性化设置页面
+  // 检查是否在个性化定制页面
   const isPersonalizationActive = currentPath === 'personalization';
 
   // 处理悬停时动态定位子菜单

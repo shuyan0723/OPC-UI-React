@@ -154,7 +154,7 @@ a {
   font-size: 13px;
 }
 
-/* 个性化设置悬停子菜单 */
+/* 个性化定制悬停子菜单 */
 .nav-personalization-wrapper {
   position: relative;
 }
@@ -473,7 +473,7 @@ button {
   color: var(--primary);
 }
 
-/* 个性化设置页面布局 - 占满屏幕 */
+/* 个性化定制页面布局 - 占满屏幕 */
 .personalization-layout {
   display: grid;
   grid-template-columns: 1fr 280px;

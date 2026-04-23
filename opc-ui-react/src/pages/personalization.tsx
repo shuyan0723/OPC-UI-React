@@ -22,7 +22,7 @@ interface Stage {
 }
 
 /**
- * Personalization - 个性化设置页面
+ * Personalization - 个性化定制页面
  */
 export default function Personalization() {
   const [searchParams] = useSearchParams();
@@ -482,7 +482,7 @@ export default function Personalization() {
 
   return (
     <>
-      <div className="breadcrumb">配置中心 / 个性化设置</div>
+      <div className="breadcrumb">配置中心 / 个性化定制</div>
       <h1 className="page-title">个性化定制</h1>
 
       <div className="personalization-layout">

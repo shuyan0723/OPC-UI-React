@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * MarketTrend - 行业工作流驾驶舱页面
  */
 export default function MarketTrend() {
-  const [industry, setIndustry] = useState<string>('全部行业');
   const [timeRange, setTimeRange] = useState<string>('近30天');
   const [dimension, setDimension] = useState<string>('营收');
 
@@ -22,11 +22,6 @@ export default function MarketTrend() {
 
       <section className="card">
         <div className="toolbar">
-          <select value={industry} onChange={(e) => setIndustry(e.target.value)}>
-            <option>全部行业</option>
-            <option>科技</option>
-            <option>消费</option>
-          </select>
           <select value={timeRange} onChange={(e) => setTimeRange(e.target.value)}>
             <option>近30天</option>
             <option>近90天</option>
@@ -37,6 +32,8 @@ export default function MarketTrend() {
             <option value="热度">热度</option>
           </select>
           <button className="btn-primary">生成报告</button>
+          <Link to="/personalization" className="btn-outline">去配置</Link>
+          <Link to="/personalization#industry" className="btn-outline">模板市场</Link>
         </div>
       </section>
 

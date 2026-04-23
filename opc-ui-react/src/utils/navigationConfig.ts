@@ -43,7 +43,7 @@ export const navigationGroups: NavGroup[] = [
     key: 'config',
     title: '配置中心',
     children: [
-      { href: 'personalization', label: '个性化设置' },
+      { href: 'personalization', label: '个性化定制' },
       { href: 'ai-chat', label: '行业AI助手' },
     ],
   },
