@@ -64,7 +64,7 @@ export default function MarketTrend() {
             <option value="热度">热度</option>
           </select>
           <button className="btn-primary">生成报告</button>
-          <Link to={`/personalization?template=${encodeURIComponent(selectedIndustry)}`} className="btn-outline">
+          <Link to={`/personalization?template=${encodeURIComponent(selectedIndustry)}#workflow`} className="btn-outline">
             去配置
           </Link>
           <Link to="/personalization#industry" className="btn-outline">模板市场</Link>

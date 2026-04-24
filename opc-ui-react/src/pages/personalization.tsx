@@ -67,6 +67,7 @@ export default function Personalization() {
   const [selectedIndustryCategory, setSelectedIndustryCategory] = useState<string>('全部行业');
   const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
   const industrySectionRef = useRef<HTMLDivElement>(null);
+  const workflowSectionRef = useRef<HTMLDivElement>(null);
 
   // 当 URL 参数变化时更新 activeSection
   useEffect(() => {
@@ -79,11 +80,17 @@ export default function Personalization() {
   // 处理从其他页面跳转带来的 template 参数
   useEffect(() => {
     const templateParam = searchParams.get('template');
+    const hash = window.location.hash.replace('#', '');
+
     if (templateParam) {
       setSelectedTemplate(templateParam);
-      // 滚动到行业模板区域
+      // 根据 hash 决定滚动位置
       setTimeout(() => {
-        industrySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (hash === 'workflow') {
+          workflowSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          industrySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }, 100);
     }
   }, [searchParams]);
@@ -769,7 +776,7 @@ export default function Personalization() {
           </div>
 
           {/* 工作流配置 */}
-          <div className="card" id="workflow">
+          <div className="card" id="workflow" ref={workflowSectionRef}>
             <WorkflowBuilder />
           </div>
 
