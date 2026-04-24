@@ -67,7 +67,7 @@ export function Sidebar() {
     if (wrapperRef.current) {
       const rect = wrapperRef.current.getBoundingClientRect();
       setSubmenuPosition({
-        top: rect.top,
+        top: rect.top - 40,
         left: rect.right + 8,
       });
     }
@@ -180,7 +180,7 @@ export function Sidebar() {
                             className="submenu-bridge"
                             style={{
                               position: 'fixed',
-                              top: `${submenuPosition.top + 8}px`,
+                              top: `${submenuPosition.top + 8 - 40}px`,
                               left: `${submenuPosition.left - 8}px`,
                               width: '8px',
                               height: 'calc(100% - 16px)',
