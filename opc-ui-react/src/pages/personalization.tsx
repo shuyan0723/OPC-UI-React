@@ -5,7 +5,7 @@ import { WorkflowBuilder } from '@components/workflow/WorkflowBuilder';
 interface Template {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   features: string[];
   selected: boolean;
   category: string;
@@ -108,7 +108,6 @@ export default function Personalization() {
       id: 'social-media',
       name: '自媒体运营',
       category: '内容创作',
-      description: '内容创作、粉丝运营、广告变现',
       features: ['内容日历', 'AI文案生成', '粉丝画像分析', '广告智能报价', '爆文趋势预测', '竞品监控', '流量转化分析', '多平台发布', '评论管理', '私信自动回复'],
       selected: true,
     },
@@ -682,7 +681,7 @@ export default function Personalization() {
                     {template.name}
                     {selectedTemplate === template.name && <span className="tag-enabled">已启用</span>}
                   </h4>
-                  <p>{template.description}</p>
+                  {template.description && <p>{template.description}</p>}
                   <div className="template-features">
                     {template.features.map((feature, index) => (
                       <span key={index}>{feature}</span>
@@ -882,38 +881,33 @@ export default function Personalization() {
       {/* 全屏预览模态框 */}
       {showPreviewModal && (
         <div className="modal-backdrop show">
-          <div className="modal" style={{ maxWidth: '800px', width: '92vw' }}>
+          <div className="modal" style={{ maxWidth: '1200px', width: '92vw' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 style={{ margin: 0 }}>配置预览</h3>
               <button onClick={() => setShowPreviewModal(false)} style={{ padding: '6px 16px' }}>关闭</button>
             </div>
 
             <div style={{ background: '#f8faff', padding: '20px', borderRadius: '8px', marginBottom: '16px' }}>
-              <h4 style={{ marginTop: 0, marginBottom: '12px' }}>当前配置概览</h4>
+              {/* <h4 style={{ marginTop: 0, marginBottom: '12px' }}>当前配置概览</h4> */}
 
-              <div style={{ marginBottom: '16px' }}>
-                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>行业模板</p>
-                <div style={{ fontSize: '16px', fontWeight: '600' }}>{selectedTemplate}</div>
-                <p style={{ margin: '8px 0 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
-                  {templates.find(t => t.name === selectedTemplate)?.description}
-                </p>
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>角色视角</p>
-                <div style={{ fontSize: '16px', fontWeight: '600' }}>{roles.find((r) => r.id === activeRole)?.name}</div>
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>发展阶段</p>
-                <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                  {stages.find((s) => s.id === selectedStage)?.name || '未设置'}
+              {/* 三列布局：行业模板、角色视角、发展阶段 */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '16px' }}>
+                <div>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>行业模板</p>
+                  <div style={{ fontSize: '16px', fontWeight: '600' }}>{selectedTemplate}</div>
                 </div>
-                {stageInfo.stage && (
-                  <p style={{ margin: '8px 0 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
-                    已成立 {stageInfo.years}年 {stageInfo.months}月
-                  </p>
-                )}
+
+                <div>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>角色视角</p>
+                  <div style={{ fontSize: '16px', fontWeight: '600' }}>{roles.find((r) => r.id === activeRole)?.name}</div>
+                </div>
+
+                <div>
+                  <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>发展阶段</p>
+                  <div style={{ fontSize: '16px', fontWeight: '600' }}>
+                    {stages.find((s) => s.id === selectedStage)?.name || '未设置'}
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -997,6 +991,76 @@ export default function Personalization() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* 电商行业专属展示 */}
+            {selectedTemplate === '跨境电商' && (
+              <div className="ecommerce-preview">
+                <h4 style={{ marginTop: 0, marginBottom: '16px' }}>电商行业设计</h4>
+
+                {/* 核心指标 */}
+                <div style={{ marginBottom: '20px' }}>
+                  <div className="ecommerce-metrics-grid">
+                    <div className="ecommerce-metric-card">
+                      <div className="ecommerce-metric-label">核心指标</div>
+                      <div className="ecommerce-metric-value">GMV</div>
+                    </div>
+                    <div className="ecommerce-metric-card">
+                      <div className="ecommerce-metric-label">核心指标</div>
+                      <div className="ecommerce-metric-value">转化率</div>
+                    </div>
+                    <div className="ecommerce-metric-card">
+                      <div className="ecommerce-metric-label">核心指标</div>
+                      <div className="ecommerce-metric-value">客单价</div>
+                    </div>
+                    <div className="ecommerce-metric-card">
+                      <div className="ecommerce-metric-label">核心指标</div>
+                      <div className="ecommerce-metric-value">复购率</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 核心流程与决策节点 */}
+                <div style={{ marginBottom: '20px' }}>
+                  <div className="ecommerce-process-grid">
+                    <div className="ecommerce-process-card">
+                      <div className="ecommerce-card-title">核心业务流程</div>
+                      <ul className="ecommerce-card-list">
+                        <li>选品雷达</li>
+                        <li>广告投放优化</li>
+                        <li>库存周转</li>
+                        <li>客服工单</li>
+                      </ul>
+                    </div>
+                    <div className="ecommerce-process-card">
+                      <div className="ecommerce-card-title">关键决策点</div>
+                      <ul className="ecommerce-card-list">
+                        <li>爆品加预算</li>
+                        <li>滞销清仓</li>
+                        <li>活动档期</li>
+                        <li>物流时效优化</li>
+                      </ul>
+                    </div>
+                    <div className="ecommerce-process-card">
+                      <div className="ecommerce-card-title">管理工具集</div>
+                      <ul className="ecommerce-card-list">
+                        <li>商品看板</li>
+                        <li>营销日历</li>
+                        <li>库存预警</li>
+                        <li>利润分析</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 行业标杆案例 */}
+                <div>
+                  <div className="ecommerce-case-list">
+                    <div className="ecommerce-case-item">某跨境店铺7天ROI提升28%</div>
+                    <div className="ecommerce-case-item">某品牌复购率提升12%</div>
+                  </div>
+                </div>
               </div>
             )}
 

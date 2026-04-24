@@ -408,10 +408,15 @@ button {
 
 .modal {
   width: min(520px, 92vw);
-  margin: 8vh auto;
+  max-height: 89vh;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  margin-left: auto;
+  margin-right: auto;
   background: #fff;
   border-radius: 12px;
   padding: 16px;
+  overflow-y: auto;
 }
 
 .drawer.show {
@@ -1360,5 +1365,105 @@ button {
 
   .metric-value {
     font-size: 18px;
+  }
+}
+
+/* 电商预览样式 */
+.ecommerce-preview {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.ecommerce-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.ecommerce-metric-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.ecommerce-metric-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.ecommerce-metric-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.ecommerce-process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.ecommerce-process-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.ecommerce-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.ecommerce-card-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.ecommerce-card-list li {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.ecommerce-card-list li:last-child {
+  margin-bottom: 0;
+}
+
+.ecommerce-case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ecommerce-case-item {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* 响应式适配 */
+@media (max-width: 1024px) {
+  .ecommerce-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ecommerce-process-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ecommerce-metrics-grid {
+    grid-template-columns: 1fr;
   }
 }
