@@ -144,7 +144,7 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
                   }}
                   style={{
                     position: 'absolute',
-                    top: '-8px',
+                    top: '-11px',
                     right: '-8px',
                     width: '20px',
                     height: '20px',
@@ -153,7 +153,10 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
                     background: '#ff4d4f',
                     color: '#fff',
                     cursor: 'pointer',
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   ×
