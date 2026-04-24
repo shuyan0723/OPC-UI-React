@@ -7,7 +7,7 @@ export function TopBar() {
   return (
     <header className="topbar">
       <div className="brand">
-        <span className="brand-badge">OP</span> AI运营官
+        <img src="/src/assets/logo.png" alt="OP" style={{ width: '28px', height: '28px', borderRadius: '8px' }} /> AI运营官
       </div>
       <div className="top-actions">
         <input placeholder="全局搜索" />
