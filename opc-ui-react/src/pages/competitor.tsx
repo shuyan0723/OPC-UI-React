@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { RadarChart } from '@components/charts/RadarChart';
+import { LineChart } from '@components/charts/LineChart';
 
 /**
  * Competitor - 竞争情报监控页面
@@ -11,6 +13,38 @@ export default function Competitor() {
     { id: 'b', name: '竞品B', marketShare: '25%' },
     { id: 'c', name: '竞品C', marketShare: '20%' },
   ];
+
+  // 雷达图数据 - 产品力对比
+  const radarData = [
+    {
+      label: '我方',
+      values: [75, 68, 82, 70, 88, 65],
+    },
+    {
+      label: '竞品A',
+      values: [85, 75, 90, 80, 78, 70],
+    },
+  ];
+
+  const radarCategories = ['产品成熟度', '渠道覆盖', '用户口碑', '价格竞争力', '创新能力', '服务质量'];
+
+  // 折线图数据 - 价格变化趋势
+  const lineData = [
+    {
+      label: '我方',
+      values: [299, 299, 279, 279, 259, 259, 239],
+    },
+    {
+      label: '竞品A',
+      values: [349, 329, 329, 299, 299, 279, 279],
+    },
+    {
+      label: '竞品B',
+      values: [259, 259, 239, 239, 219, 219, 199],
+    },
+  ];
+
+  const lineLabels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月'];
 
   return (
     <>
@@ -32,11 +66,15 @@ export default function Competitor() {
 
       <section className="card">
         <div className="grid cols-2">
-          <div className="chart-placeholder">
-            <strong>雷达图：产品力对比</strong>
+          <div>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>雷达图：产品力对比</h4>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <RadarChart data={radarData} categories={radarCategories} />
+            </div>
           </div>
-          <div className="chart-placeholder">
-            <strong>折线图：价格变化趋势</strong>
+          <div>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：价格变化趋势</h4>
+            <LineChart data={lineData} labels={lineLabels} />
           </div>
         </div>
         <div className="list-card">

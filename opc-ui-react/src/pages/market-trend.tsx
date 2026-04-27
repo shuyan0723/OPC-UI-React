@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { LineChart } from '@components/charts/LineChart';
+import { BarChart } from '@components/charts/BarChart';
 
 /**
  * MarketTrend - 行业工作流驾驶舱页面
@@ -8,6 +10,28 @@ export default function MarketTrend() {
   const [selectedIndustry, setSelectedIndustry] = useState<string>('自媒体运营');
   const [timeRange, setTimeRange] = useState<string>('近30天');
   const [dimension, setDimension] = useState<string>('营收');
+
+  // 折线图数据 - 市场趋势变化
+  const trendChartData = [
+    {
+      label: selectedIndustry,
+      values: [65, 72, 68, 85, 92, 88, 95],
+    },
+    {
+      label: '行业平均',
+      values: [55, 58, 62, 65, 68, 72, 75],
+    },
+  ];
+
+  const trendLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
+  // 柱状图数据 - 细分领域表现
+  const segmentData = [
+    { label: '内容创作', value: 88 },
+    { label: '用户运营', value: 75 },
+    { label: '商业变现', value: 82 },
+    { label: '品牌合作', value: 68 },
+  ];
 
   // 可选行业列表（与个性化定制页面保持一致）
   const industryOptions = [
@@ -73,24 +97,13 @@ export default function MarketTrend() {
 
       <section className="card">
         <div className="grid cols-2">
-          <div className="chart-placeholder">
-            <strong>折线图：市场趋势变化</strong>
-            <div className="chart-bars">
-              <span className="h-20"></span>
-              <span className="h-38"></span>
-              <span className="h-55"></span>
-              <span className="h-72"></span>
-              <span className="h-62"></span>
-            </div>
+          <div>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：市场趋势变化</h4>
+            <LineChart data={trendChartData} labels={trendLabels} />
           </div>
-          <div className="chart-placeholder">
-            <strong>柱状图：细分领域表现</strong>
-            <div className="chart-bars">
-              <span className="h-65"></span>
-              <span className="h-38"></span>
-              <span className="h-48"></span>
-              <span className="h-58"></span>
-            </div>
+          <div>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>柱状图：细分领域表现</h4>
+            <BarChart data={segmentData} />
           </div>
         </div>
       </section>
