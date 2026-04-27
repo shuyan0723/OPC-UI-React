@@ -229,9 +229,10 @@ export function AIAssistant() {
         style={{
           cursor: isDragging ? 'grabbing' : 'grab',
           userSelect: 'none',
+          padding: 0,
         }}
       >
-        AI
+        <img src="/src/assets/AI.png" alt="AI" style={{ width: '54px', height: '54px', borderRadius: '50%' }} />
       </button>
       {isPanelOpen && (
         <section className="assistant-panel" style={{ display: 'block', width: '380px' }}>

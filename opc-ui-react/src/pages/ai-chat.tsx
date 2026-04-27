@@ -131,8 +131,9 @@ export default function AIChat() {
           className="chat-fab"
           aria-label="打开行业AI助手"
           onClick={() => setIsPanelOpen(!isPanelOpen)}
+          style={{ padding: 0 }}
         >
-          AI
+          <img src="/src/assets/AI.png" alt="AI" style={{ width: '54px', height: '54px', borderRadius: '50%' }} />
         </button>
         {isPanelOpen && (
           <section className="assistant-panel d-block">
