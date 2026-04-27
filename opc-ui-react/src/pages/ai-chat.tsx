@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import type { ChatMessage } from '@types';
+import { LineChart } from '@components/charts/LineChart';
 
 interface IndustryPrompt {
   id: number;
@@ -11,6 +12,20 @@ interface IndustryPrompt {
  * AIChat - 行业AI助手页面
  */
 export default function AIChat() {
+  // 销售趋势数据
+  const salesTrendData = [
+    {
+      label: '销售额',
+      values: [42000, 48000, 45000, 52000, 58000, 55000, 62000],
+    },
+    {
+      label: '订单数',
+      values: [280, 320, 300, 350, 390, 370, 410],
+    },
+  ];
+
+  const salesTrendLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 1, role: 'ai', content: '你好！ 我是您的AI运营官，有什么可以帮助您的吗？', time: '10:00' },
   ]);
@@ -223,8 +238,9 @@ export default function AIChat() {
             <div className="metric-value">320</div>
           </div>
         </div>
-        <div className="chart-placeholder mt-10">
-          销售趋势图占位
+        <div className="mt-10">
+          <h4 style={{ marginBottom: '12px', textAlign: 'center' }}>销售趋势图</h4>
+          <LineChart data={salesTrendData} labels={salesTrendLabels} />
         </div>
         <div className="mt-10">
           <button className="btn-primary">导出PDF</button>
