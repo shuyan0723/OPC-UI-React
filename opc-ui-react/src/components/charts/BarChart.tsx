@@ -53,8 +53,8 @@ export function BarChart({ data, width = 400, height = 200 }: BarChartProps) {
       {/* 柱状图 */}
       {data.map((item, i) => {
         const x = padding.left + i * (barWidth + gap) + gap / 2;
-        const y = getY(item.value);
-        const barHeight = chartHeight - (item.value / maxValue) * chartHeight;
+        const barHeight = (item.value / maxValue) * chartHeight;
+        const y = padding.top + chartHeight - barHeight;
         const color = colors[i % colors.length];
 
         return (

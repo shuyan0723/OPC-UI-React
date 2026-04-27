@@ -46,42 +46,56 @@ export function PieChart({ data, width = 300, height = 300 }: PieChartProps) {
   const legendX = width + 10;
 
   return (
-    <svg width={width + 120} height={height}>
+    <svg width={width + 140} height={height}>
       {/* 饼图 */}
-      {slices.map((slice) => (
-        <g key={`slice-${slice.index}`}>
-          <path
-            d={slice.path}
-            fill={slice.color}
-            stroke="#fff"
-            strokeWidth="2"
-            style={{ transition: 'opacity 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-          />
-          {/* 百分比标签 */}
-          {slice.value / total > 0.05 && (
-            <text
-              x={centerX + Math.cos((slice.startAngle + slice.endAngle) / 2) * (radius * 0.65)}
-              y={centerY + Math.sin((slice.startAngle + slice.endAngle) / 2) * (radius * 0.65)}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="12"
-              fill="#fff"
-              fontWeight="600"
-            >
-              {Math.round((slice.value / total) * 100)}%
-            </text>
-          )}
-        </g>
-      ))}
+      <g transform={`translate(${width / 2}, ${height / 2})`}>
+        {slices.map((slice) => {
+          const startAngle = slice.startAngle;
+          const endAngle = slice.endAngle;
+          const sliceAngle = endAngle - startAngle;
+          const largeArcFlag = sliceAngle > Math.PI ? 1 : 0;
 
-      {/* 图例 */}
-      <g transform={`translate(${width - 100}, 20)`}>
+          const x1 = Math.cos(startAngle) * radius;
+          const y1 = Math.sin(startAngle) * radius;
+          const x2 = Math.cos(endAngle) * radius;
+          const y2 = Math.sin(endAngle) * radius;
+
+          return (
+            <g key={`slice-${slice.index}`}>
+              <path
+                d={`M 0 0 L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
+                fill={slice.color}
+                stroke="#fff"
+                strokeWidth="2"
+                style={{ transition: 'opacity 0.2s' }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              />
+              {/* 百分比标签 */}
+              {slice.value / total > 0.05 && (
+                <text
+                  x={Math.cos((startAngle + endAngle) / 2) * (radius * 0.65)}
+                  y={Math.sin((startAngle + endAngle) / 2) * (radius * 0.65)}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize="12"
+                  fill="#fff"
+                  fontWeight="600"
+                >
+                  {Math.round((slice.value / total) * 100)}%
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </g>
+
+      {/* 图例 - 放在饼图右侧 */}
+      <g transform={`translate(${width + 15}, 20)`}>
         {slices.map((slice) => (
-          <g key={`legend-${slice.index}`} transform={`translate(0, ${slice.index * 22})`}>
-            <rect width="16" height="16" fill={slice.color} rx="3" />
-            <text x="24" y="13" fontSize="12" fill="#666">
+          <g key={`legend-${slice.index}`} transform={`translate(0, ${slice.index * 24})`}>
+            <rect width="14" height="14" fill={slice.color} rx="2" />
+            <text x="20" y="11" fontSize="12" fill="#666">
               {slice.label}
             </text>
           </g>
