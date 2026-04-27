@@ -23,7 +23,7 @@
 | 10 | 项目管理 | pages/project.html | project.jsx | ✅ |
 | 11 | 投融资对接 | pages/investment.html | investment.jsx | ✅ |
 | 12 | 政策申报 | pages/policy.html | policy.jsx | ✅ |
-| 13 | 个性化设置 | pages/personalization.html | personalization.jsx | ✅ |
+| 13 | 个性化定制 | pages/personalization.html | personalization.jsx | ✅ |
 | 14 | 行业AI助手 | pages/ai-chat.html | ai-chat.jsx | ✅ |
 
 ---
@@ -98,7 +98,7 @@
 /cashflow                  # 现金流管理
 /investment                # 投融资对接
 /policy                    # 政策申报
-/personalization           # 个性化设置
+/personalization           # 个性化定制
 /ai-chat                   # 行业AI助手
 ```
 
