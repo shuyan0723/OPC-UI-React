@@ -504,9 +504,9 @@ export default function Personalization() {
   ];
 
   const stages: Stage[] = [
-    { id: 'startup', name: '初创期', description: '产品验证、市场探索' },
-    { id: 'growth', name: '成长期', description: '规模扩张、模式优化' },
-    { id: 'mature', name: '成熟期', description: '稳定运营、持续创新' },
+    { id: 'startup', name: '初创期', description: '产品验证、市场探索（0年 < 成立时间 ≤ 3年）' },
+    { id: 'growth', name: '成长期', description: '规模扩张、模式优化（3年 < 成立时间 ≤ 7年）' },
+    { id: 'mature', name: '成熟期', description: '稳定运营、持续创新（成立时间 > 7年）' },
   ];
 
   // 行业内容数据（预览模式用）
