@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import type { CanvasNode, CanvasEdge, WorkflowModule } from '../../data/workflowModules';
+import { tracker } from '@utils/tracking';
 
 interface WorkflowCanvasProps {
   onNodesChange?: (nodes: CanvasNode[]) => void;
@@ -52,6 +53,14 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
     if (onNodesChange) {
       onNodesChange(updatedNodes);
     }
+
+    // 埋点：记录组件添加
+    tracker.trackWorkflow('add_node', {
+      nodeId: newNode.id,
+      nodeName: moduleData.name,
+      position: { x, y },
+      totalNodes: updatedNodes.length,
+    });
   };
 
   // 删除节点
@@ -151,6 +160,15 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
       if (onEdgesChange) {
         onEdgesChange(updatedEdges);
       }
+
+      // 埋点：记录连线创建
+      tracker.trackWorkflow('create_edge', {
+        edgeId: newEdge.id,
+        sourceNode: connectingFrom,
+        targetNode: nodeId,
+        totalEdges: updatedEdges.length,
+      });
+
       setConnectingFrom(null);
     }
   };

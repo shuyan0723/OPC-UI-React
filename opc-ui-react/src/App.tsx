@@ -16,6 +16,7 @@ import Project from '@pages/project';
 import Investment from '@pages/investment';
 import Policy from '@pages/policy';
 import Personalization from '@pages/personalization';
+import TrackingTest from '@pages/tracking-test';
 
 /**
  * App - 应用主组件
@@ -50,6 +51,11 @@ function App() {
           {/* 配置中心 */}
           <Route path="personalization" element={<Personalization />} />
           <Route path="ai-chat" element={<AIChat />} />
+
+          {/* 测试页面（开发环境） */}
+          {import.meta.env.DEV && (
+            <Route path="tracking-test" element={<TrackingTest />} />
+          )}
 
           {/* 404 页面 */}
           <Route path="*" element={<Placeholder title="页面未找到" />} />

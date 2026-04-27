@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import type { ChatMessage } from '@types';
 import { LineChart } from '@components/charts/LineChart';
+import { useTracking } from '@hooks/useTracking';
+import { tracker } from '@utils/tracking';
 
 interface IndustryPrompt {
   id: number;
@@ -12,6 +14,8 @@ interface IndustryPrompt {
  * AIChat - 行业AI助手页面
  */
 export default function AIChat() {
+  // 页面埋点
+  useTracking('行业AI助手');
   // 销售趋势数据
   const salesTrendData = [
     {
@@ -47,6 +51,12 @@ export default function AIChat() {
   const handleSend = () => {
     if (!input.trim()) return;
 
+    // 埋点：记录用户提问
+    tracker.trackAI('send_message', {
+      messageLength: input.length,
+      hasHistory: messages.length > 1,
+    });
+
     const newUserMessage: ChatMessage = {
       id: messages.length + 1,
       role: 'user',
@@ -72,6 +82,9 @@ export default function AIChat() {
   };
 
   const handlePromptClick = (prompt: string) => {
+    // 埋点：记录提示词点击
+    tracker.trackAI('prompt_click', { prompt });
+
     setInput(prompt);
     setCharCount(prompt.length);
     chatInputRef.current?.focus();

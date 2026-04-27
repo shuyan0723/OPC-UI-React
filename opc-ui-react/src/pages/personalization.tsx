@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { WorkflowBuilder } from '@components/workflow/WorkflowBuilder';
+import { useTracking } from '@hooks/useTracking';
+import { tracker } from '@utils/tracking';
 
 interface Template {
   id: string;
@@ -53,6 +55,8 @@ interface IndustryContent {
  * Personalization - 个性化定制页面
  */
 export default function Personalization() {
+  // 页面埋点
+  useTracking('个性化定制');
   const [searchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState<string>(() => {
     // 从 URL 参数获取初始 section，默认为 'industry'
@@ -590,6 +594,12 @@ export default function Personalization() {
   };
 
   const handleTemplateSelect = (templateId: string) => {
+    // 埋点：记录模板选择
+    tracker.trackClick('template_select', {
+      templateName: templateId,
+      category: templates.find(t => t.name === templateId)?.category,
+    });
+
     setSelectedTemplate(templateId);
   };
 
@@ -655,7 +665,14 @@ export default function Personalization() {
         <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
           <button
             className="btn-primary"
-            onClick={() => setShowPreviewModal(true)}
+            onClick={() => {
+              tracker.trackClick('preview_mode', {
+                template: selectedTemplate,
+                role: activeRole,
+                stage: selectedStage,
+              });
+              setShowPreviewModal(true);
+            }}
             style={{ padding: '10px 24px' }}
           >
             预览模式
@@ -1073,7 +1090,20 @@ export default function Personalization() {
 
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
               <button className="btn-outline" onClick={() => setShowPreviewModal(false)}>继续编辑</button>
-              <button className="btn-primary" onClick={() => setShowPreviewModal(false)}>保存配置</button>
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  tracker.trackSubmit('save_personalization_config', {
+                    template: selectedTemplate,
+                    role: activeRole,
+                    stage: selectedStage,
+                    foundedDate,
+                  });
+                  setShowPreviewModal(false);
+                }}
+              >
+                保存配置
+              </button>
             </div>
           </div>
         </div>

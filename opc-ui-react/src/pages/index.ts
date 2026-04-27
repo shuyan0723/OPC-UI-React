@@ -1,5 +1,6 @@
 export { Home } from './Home';
 export { Placeholder } from './Placeholder';
+export { default as TrackingTest } from './tracking-test';
 
 // Page components
 export { default as CRM } from './crm';

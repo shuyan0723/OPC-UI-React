@@ -409,7 +409,7 @@ button {
 .modal {
   width: min(520px, 92vw);
   max-height: 89vh;
-  margin-top: 5%;
+  margin-top: 15%;
   margin-bottom: 1%;
   margin-left: auto;
   margin-right: auto;
