@@ -24,7 +24,7 @@ export function ModuleLibrary({ onModuleDragStart }: ModuleLibraryProps) {
 
   return (
     <div className="module-library">
-      <h3 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>模块库</h3>
+      <h3 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>组件库</h3>
 
       {/* 分类筛选 */}
       <div style={{ marginBottom: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
