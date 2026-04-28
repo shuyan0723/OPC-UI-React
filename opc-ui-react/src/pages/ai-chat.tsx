@@ -241,19 +241,23 @@ export default function AIChat() {
       {/* 结构化响应示例 */}
       <section className="card">
         <h3>结构化响应示例</h3>
-        <div className="grid cols-2">
-          <div className="metric">
-            <div className="metric-label">总销售额</div>
-            <div className="metric-value">¥128,000</div>
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'stretch' }}>
+          {/* 左侧指标 */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="metric">
+              <div className="metric-label">总销售额</div>
+              <div className="metric-value">¥128,000</div>
+            </div>
+            <div className="metric">
+              <div className="metric-label">订单数量</div>
+              <div className="metric-value">320</div>
+            </div>
           </div>
-          <div className="metric">
-            <div className="metric-label">订单数量</div>
-            <div className="metric-value">320</div>
+          {/* 右侧图表 */}
+          <div style={{ flex: 1 }}>
+            <h4 style={{ marginBottom: '12px', fontSize: '16px' }}>销售趋势图</h4>
+            <LineChart data={salesTrendData} labels={salesTrendLabels} />
           </div>
-        </div>
-        <div className="mt-10">
-          <h4 style={{ marginBottom: '12px', textAlign: 'center' }}>销售趋势图</h4>
-          <LineChart data={salesTrendData} labels={salesTrendLabels} />
         </div>
         <div className="mt-10">
           <button className="btn-primary">导出PDF</button>

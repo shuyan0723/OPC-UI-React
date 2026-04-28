@@ -44,7 +44,7 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
               y={y}
               textAnchor="end"
               dominantBaseline="middle"
-              fontSize="11"
+              fontSize="14"
               fill="#999"
             >
               {Math.round((maxValue * value) / 100)}
@@ -60,7 +60,7 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
           x={getX(i)}
           y={height - 10}
           textAnchor="middle"
-          fontSize="11"
+          fontSize="14"
           fill="#666"
         >
           {label}
@@ -104,7 +104,7 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
         {data.map((dataset, i) => (
           <g key={`legend-${i}`} transform={`translate(${i * 80}, 0)`}>
             <rect width="12" height="12" fill={colors[i % colors.length]} rx="2" />
-            <text x="18" y="10" fontSize="12" fill="#666">
+            <text x="18" y="10" fontSize="14" fill="#666">
               {dataset.label}
             </text>
           </g>

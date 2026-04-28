@@ -255,13 +255,13 @@ a {
 
 .metric-label {
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .metric-value {
-  font-size: 20px;
+  font-size: 32px;
   font-weight: 600;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .toolbar {
