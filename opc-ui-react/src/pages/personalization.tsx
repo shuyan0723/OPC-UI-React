@@ -658,11 +658,10 @@ export default function Personalization() {
   return (
     <>
       <div className="breadcrumb">配置中心 / 个性化定制</div>
-      <h1 className="page-title">个性化定制</h1>
-
       <div className="personalization-layout">
-        {/* 预览模式按钮 */}
-        <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+        {/* 页面标题和预览模式按钮 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h1 className="page-title" style={{ margin: 0 }}>个性化定制</h1>
           <button
             className="btn-primary"
             onClick={() => {
