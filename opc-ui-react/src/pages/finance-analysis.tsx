@@ -78,15 +78,15 @@ export default function FinanceAnalysis() {
         </div>
         <div className="grid cols-3">
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：月度收入成本趋势</h4>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>月度收入成本趋势</h4>
             <LineChart data={trendData} labels={trendLabels} height={180} />
           </div>
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>饼图：成本结构分布</h4>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>成本结构分布</h4>
             <PieChart data={costData} width={280} height={220} />
           </div>
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>柱状图：业务线盈利能力</h4>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>业务线盈利能力</h4>
             <BarChart data={profitData} height={180} />
           </div>
         </div>

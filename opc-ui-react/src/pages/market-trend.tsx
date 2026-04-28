@@ -98,12 +98,16 @@ export default function MarketTrend() {
       <section className="card">
         <div className="grid cols-2">
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：市场趋势变化</h4>
-            <LineChart data={trendChartData} labels={trendLabels} />
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>市场趋势变化</h4>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', paddingTop: '20px' }}>
+              <LineChart data={trendChartData} labels={trendLabels} />
+            </div>
           </div>
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>柱状图：细分领域表现</h4>
-            <BarChart data={segmentData} />
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>细分领域表现</h4>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+              <BarChart data={segmentData} />
+            </div>
           </div>
         </div>
       </section>

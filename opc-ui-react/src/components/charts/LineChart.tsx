@@ -9,7 +9,7 @@ interface LineChartProps {
 }
 
 export function LineChart({ data, labels, width = 400, height = 200 }: LineChartProps) {
-  const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+  const padding = { top: 35, right: 20, bottom: 40, left: 50 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
@@ -100,11 +100,11 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
       })}
 
       {/* 图例 - 相对于SVG父元素水平居中 */}
-      <g transform={`translate(${width / 2 - (data.length * 80) / 2}, 10)`}>
+      <g transform={`translate(${width / 2 - (data.length * 100) / 2}, 20)`}>
         {data.map((dataset, i) => (
-          <g key={`legend-${i}`} transform={`translate(${i * 80}, 0)`}>
-            <rect width="12" height="12" fill={colors[i % colors.length]} rx="2" />
-            <text x="18" y="10" fontSize="14" fill="#666">
+          <g key={`legend-${i}`} transform={`translate(${i * 100}, 0)`}>
+            <rect width="12" height="12" fill={colors[i % colors.length]} rx="2" y="-6" />
+            <text x="18" y="0" fontSize="14" fill="#666" dominantBaseline="middle">
               {dataset.label}
             </text>
           </g>

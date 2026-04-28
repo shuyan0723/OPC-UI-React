@@ -254,7 +254,7 @@ export default function AIChat() {
             </div>
           </div>
           {/* 右侧图表 */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: '120px' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: '20px' }}>
             <h4 style={{ marginBottom: '12px', fontSize: '16px', textAlign: 'center' }}>销售趋势图</h4>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <LineChart data={salesTrendData} labels={salesTrendLabels} width={500} height={320} />

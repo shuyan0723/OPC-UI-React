@@ -92,12 +92,12 @@ export default function ContentOps() {
 
       <section className="card">
         <div className="grid cols-2">
-          <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：各平台流量变化趋势</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>各平台流量变化趋势</h4>
             <LineChart data={trafficData} labels={trafficLabels} />
           </div>
-          <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>柱状图：内容互动率对比</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>内容互动率对比</h4>
             <BarChart data={engagementData} />
           </div>
         </div>
