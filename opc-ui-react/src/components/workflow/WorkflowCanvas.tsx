@@ -31,11 +31,23 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
     const moduleData = JSON.parse(dataStr) as WorkflowModule;
 
     // 计算放置位置
-    const rect = canvasRef.current?.getBoundingClientRect();
+    const canvasArea = e.currentTarget as HTMLElement;
+    const rect = canvasArea.getBoundingClientRect();
+
     if (!rect) return;
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    // 获取边框宽度
+    const computedStyle = window.getComputedStyle(canvasArea);
+    const borderLeft = parseFloat(computedStyle.borderLeftWidth) || 0;
+    const borderTop = parseFloat(computedStyle.borderTopWidth) || 0;
+
+    // 节点预估尺寸（用于中心对齐）
+    const nodeWidth = 150;  // minWidth
+    const nodeHeight = 80;   // 预估高度（内容 + padding）
+
+    // 计算节点左上角位置，使中心对齐鼠标
+    const x = e.clientX - rect.left - borderLeft - nodeWidth / 2;
+    const y = e.clientY - rect.top - borderTop - nodeHeight / 2;
 
     // 创建新节点
     const newNode: CanvasNode = {
