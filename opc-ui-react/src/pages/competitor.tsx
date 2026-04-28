@@ -67,13 +67,13 @@ export default function Competitor() {
       <section className="card">
         <div className="grid cols-2">
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>雷达图：产品力对比</h4>
+            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>产品力对比</h4>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <RadarChart data={radarData} categories={radarCategories} />
             </div>
           </div>
           <div>
-            <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：价格变化趋势</h4>
+            <h4 style={{ marginBottom: '16px', textAlign: 'left', marginLeft: '150px' }}>价格变化趋势</h4>
             <div style={{ paddingTop: '95px' }}>
               <LineChart data={lineData} labels={lineLabels} />
             </div>
