@@ -836,7 +836,7 @@ export default function Personalization() {
                 </span>
               </div>
             )}
-            <div className="stage-description">
+            <div className="stage-description" style={{ display: foundedDate ? 'none' : 'block' }}>
               <p className="stage-hint">
                 <strong>系统说明：</strong>企业发展阶段将根据企业成立时间自动判定，无需手动选择。
               </p>
@@ -881,7 +881,7 @@ export default function Personalization() {
             {stages.map((stage) => (
               <div
                 key={stage.id}
-                className={`stage-item ${selectedStage === stage.id ? 'active' : ''}`}
+                className={`stage-item ${selectedStage === stage.id ? 'active' : ''} ${stageInfo.stage === stage.id ? 'current' : ''}`}
                 style={{
                   opacity: stageInfo.stage && stage.id !== stageInfo.stage ? 0.5 : 1
                 }}

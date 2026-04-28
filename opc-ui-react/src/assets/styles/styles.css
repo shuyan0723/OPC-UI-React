@@ -705,6 +705,11 @@ button {
   background: #f7fbff;
 }
 
+.stage-item.current {
+  border-color: #9c27b0;
+  background: #f3e5f5;
+}
+
 .stage-number {
   width: 30px;
   height: 30px;
