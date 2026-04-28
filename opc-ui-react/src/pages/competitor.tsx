@@ -74,7 +74,9 @@ export default function Competitor() {
           </div>
           <div>
             <h4 style={{ marginBottom: '16px', textAlign: 'center' }}>折线图：价格变化趋势</h4>
-            <LineChart data={lineData} labels={lineLabels} />
+            <div style={{ paddingTop: '95px' }}>
+              <LineChart data={lineData} labels={lineLabels} />
+            </div>
           </div>
         </div>
         <div className="list-card">

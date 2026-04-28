@@ -99,8 +99,8 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
         );
       })}
 
-      {/* 图例 */}
-      <g transform={`translate(${padding.left}, 10)`}>
+      {/* 图例 - 相对于SVG父元素水平居中 */}
+      <g transform={`translate(${width / 2 - (data.length * 80) / 2}, 10)`}>
         {data.map((dataset, i) => (
           <g key={`legend-${i}`} transform={`translate(${i * 80}, 0)`}>
             <rect width="12" height="12" fill={colors[i % colors.length]} rx="2" />
