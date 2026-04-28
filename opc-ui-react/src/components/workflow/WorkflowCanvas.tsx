@@ -7,28 +7,48 @@ interface WorkflowCanvasProps {
   onEdgesChange?: (edges: CanvasEdge[]) => void;
 }
 
+// 连接端口类型
+type PortType = 'input' | 'output';
+
+// 扩展的连线类型，包含端口信息
+interface EdgeWithPorts extends CanvasEdge {
+  sourcePort: PortType;
+  targetPort: PortType;
+}
+
+// 连接状态
+interface ConnectionState {
+  nodeId: string;
+  portType: PortType;
+}
+
 // 节点组件 - 使用 memo 优化，只在 props 变化时重新渲染
 interface CanvasNodeComponentProps {
   node: CanvasNode;
   isSelected: boolean;
   isConnecting: boolean;
   isDragging: boolean;
+  isConnectingSource: boolean;  // 是否是连线的起点
   onSelect: (nodeId: string) => void;
   onDelete: (nodeId: string) => void;
   onNodeMouseDown: (e: React.MouseEvent, nodeId: string) => void;
-  onConnectionPointClick: (e: React.MouseEvent, nodeId: string) => void;
+  onConnectionPointClick: (e: React.MouseEvent, nodeId: string, portType: PortType) => void;
 }
 
 const CanvasNodeComponent = memo<CanvasNodeComponentProps>(({
   node,
   isSelected,
   isConnecting,
+  isConnectingSource,
   isDragging,
   onSelect,
   onDelete,
   onNodeMouseDown,
   onConnectionPointClick
 }) => {
+  // 只有输出点可以作为连线起点，所以 isConnectingSource 就是输出点的状态
+  const isOutputConnecting = isConnectingSource;
+
   return (
     <div
       className={`canvas-node ${isSelected ? 'selected' : ''}`}
@@ -54,11 +74,11 @@ const CanvasNodeComponent = memo<CanvasNodeComponentProps>(({
         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{node.data.description}</div>
       )}
 
-      {/* 输入连接点 (左侧) */}
+      {/* 输入连接点 (左侧) - 永远不变绿 */}
       <div
-        className="connection-point"
-        onClick={(e) => onConnectionPointClick(e, node.id)}
-        title="点击连接其他组件"
+        className="connection-point connection-point-input"
+        onClick={(e) => onConnectionPointClick(e, node.id, 'input')}
+        title="输入点"
         style={{
           position: 'absolute',
           left: '-6px',
@@ -67,18 +87,18 @@ const CanvasNodeComponent = memo<CanvasNodeComponentProps>(({
           width: '12px',
           height: '12px',
           borderRadius: '50%',
-          background: isConnecting ? '#52c41a' : '#1677ff',
+          background: '#1677ff',
           border: '2px solid #fff',
           cursor: 'crosshair',
           zIndex: 3
         }}
       />
 
-      {/* 输出连接点 (右侧) */}
+      {/* 输出连接点 (右侧) - 作为起点时变绿 */}
       <div
-        className="connection-point"
-        onClick={(e) => onConnectionPointClick(e, node.id)}
-        title="点击连接其他组件"
+        className="connection-point connection-point-output"
+        onClick={(e) => onConnectionPointClick(e, node.id, 'output')}
+        title="输出点 - 点击开始连线"
         style={{
           position: 'absolute',
           right: '-6px',
@@ -87,7 +107,7 @@ const CanvasNodeComponent = memo<CanvasNodeComponentProps>(({
           width: '12px',
           height: '12px',
           borderRadius: '50%',
-          background: isConnecting ? '#52c41a' : '#1677ff',
+          background: isOutputConnecting ? '#52c41a' : '#1677ff',
           border: '2px solid #fff',
           cursor: 'crosshair',
           zIndex: 3
@@ -131,6 +151,7 @@ const CanvasNodeComponent = memo<CanvasNodeComponentProps>(({
     prevProps.node.position.y === nextProps.node.position.y &&
     prevProps.isSelected === nextProps.isSelected &&
     prevProps.isConnecting === nextProps.isConnecting &&
+    prevProps.isConnectingSource === nextProps.isConnectingSource &&
     prevProps.isDragging === nextProps.isDragging
   );
 });
@@ -143,10 +164,10 @@ CanvasNodeComponent.displayName = 'CanvasNodeComponent';
  */
 export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasProps) {
   const [nodes, setNodes] = useState<CanvasNode[]>([]);
-  const [edges, setEdges] = useState<CanvasEdge[]>([]);
+  const [edges, setEdges] = useState<EdgeWithPorts[]>([]);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
-  const [connectingFrom, setConnectingFrom] = useState<string | null>(null);
+  const [connectingFrom, setConnectingFrom] = useState<ConnectionState | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const canvasRef = useRef<HTMLDivElement>(null);
   const nodesRef = useRef<CanvasNode[]>([]);
@@ -164,9 +185,16 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
       const targetNode = nodes.find(n => n.id === edge.target);
       if (!sourceNode || !targetNode) return null;
 
-      const sourceX = sourceNode.position.x + 150;
+      // 根据端口类型计算起点位置
+      const sourceX = edge.sourcePort === 'output'
+        ? sourceNode.position.x + 150  // 右侧
+        : sourceNode.position.x;         // 左侧
       const sourceY = sourceNode.position.y + 30;
-      const targetX = targetNode.position.x;
+
+      // 根据端口类型计算终点位置
+      const targetX = edge.targetPort === 'input'
+        ? targetNode.position.x          // 左侧
+        : targetNode.position.x + 150;   // 右侧
       const targetY = targetNode.position.y + 30;
 
       const controlOffset = Math.abs(targetX - sourceX) * 0.5;
@@ -174,6 +202,14 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
       const control1Y = sourceY;
       const control2X = targetX - controlOffset;
       const control2Y = targetY;
+
+      // 根据目标端口方向调整箭头
+      const isTargetLeft = edge.targetPort === 'input';
+      const arrowOffsetX = -3;  // 箭头向左偏移
+      const arrowOffsetY = 1;  // 箭头向下偏移
+      const arrowPoints = isTargetLeft
+        ? `${targetX + arrowOffsetX},${targetY + arrowOffsetY} ${targetX - 10 + arrowOffsetX},${targetY - 5 + arrowOffsetY} ${targetX - 10 + arrowOffsetX},${targetY + 5 + arrowOffsetY}`  // 箭头向右，更大更明显
+        : `${targetX + arrowOffsetX},${targetY + arrowOffsetY} ${targetX + 10 + arrowOffsetX},${targetY - 5 + arrowOffsetY} ${targetX + 10 + arrowOffsetX},${targetY + 5 + arrowOffsetY}`; // 箭头向左，更大更明显
 
       return {
         ...edge,
@@ -186,7 +222,7 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
         control2X,
         control2Y,
         pathD: `M ${sourceX} ${sourceY} C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${targetX} ${targetY}`,
-        arrowPoints: `${targetX},${targetY} ${targetX - 8},${targetY - 4} ${targetX - 8},${targetY + 4}`
+        arrowPoints
       };
     }).filter(Boolean);
   }, [edges, nodes]);
@@ -332,37 +368,64 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
     }
   }, [draggingNode, onNodesChange]);
 
-  // 连接点点击开始连线
-  const handleConnectionPointClick = (e: React.MouseEvent, nodeId: string) => {
+  // 连接点点击处理
+  const handleConnectionPointClick = (e: React.MouseEvent, nodeId: string, portType: PortType) => {
     e.stopPropagation();
 
     if (connectingFrom === null) {
-      // 开始连线
-      setConnectingFrom(nodeId);
-    } else if (connectingFrom === nodeId) {
-      // 点击同一个点，取消连线
+      // 第一步：只有点击输出点才能开始连线
+      if (portType === 'input') {
+        // 点击输入点但不能开始连线，忽略
+        return;
+      }
+      // 点击输出点，开始连线
+      setConnectingFrom({ nodeId, portType: 'output' });
+    } else if (connectingFrom.nodeId === nodeId) {
+      // 点击同一个节点的点，取消连线
       setConnectingFrom(null);
     } else {
-      // 完成连线
-      const newEdge: CanvasEdge = {
-        id: `edge-${connectingFrom}-${nodeId}-${Date.now()}`,
-        source: connectingFrom,
-        target: nodeId
+      // 第二步：完成连线
+      // 必须从输出点连到输入点
+      if (portType !== 'input') {
+        // 点击的不是输入点，取消连线
+        setConnectingFrom(null);
+        return;
+      }
+
+      // 检查是否已存在相同连接
+      const existingEdge = edges.find(
+        edge => edge.source === connectingFrom.nodeId && edge.target === nodeId
+      );
+      if (existingEdge) {
+        setConnectingFrom(null);
+        return;
+      }
+
+      // 创建新连接：从源节点的输出点到目标节点的输入点
+      const newEdge: EdgeWithPorts = {
+        id: `edge-${connectingFrom.nodeId}-${nodeId}-${Date.now()}`,
+        source: connectingFrom.nodeId,
+        target: nodeId,
+        sourcePort: 'output',
+        targetPort: 'input'
       };
+
       const updatedEdges = [...edges, newEdge];
       setEdges(updatedEdges);
+
       if (onEdgesChange) {
         onEdgesChange(updatedEdges);
       }
 
-      // 埋点：记录连线创建
+      // 埋点
       tracker.trackWorkflow('create_edge', {
         edgeId: newEdge.id,
-        sourceNode: connectingFrom,
+        sourceNode: connectingFrom.nodeId,
         targetNode: nodeId,
         totalEdges: updatedEdges.length,
       });
 
+      // 重置连接状态
       setConnectingFrom(null);
     }
   };
@@ -438,9 +501,12 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
 
               {/* 正在创建的连线 */}
               {connectingFrom && (() => {
-                const node = nodes.find(n => n.id === connectingFrom);
+                const node = nodes.find(n => n.id === connectingFrom.nodeId);
                 if (!node) return null;
-                const startX = node.position.x + 150;
+                // 根据端口类型计算起点位置
+                const startX = connectingFrom.portType === 'output'
+                  ? node.position.x + 150  // 右侧
+                  : node.position.x;         // 左侧
                 const startY = node.position.y + 30;
                 return (
                   <path
@@ -461,7 +527,8 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
                 key={node.id}
                 node={node}
                 isSelected={selectedNode === node.id}
-                isConnecting={connectingFrom === node.id}
+                isConnecting={connectingFrom?.nodeId === node.id}
+                isConnectingSource={connectingFrom?.nodeId === node.id && connectingFrom?.portType === 'output'}
                 isDragging={draggingNode === node.id}
                 onSelect={handleSelectNode}
                 onDelete={handleDeleteNode}
@@ -475,7 +542,7 @@ export function WorkflowCanvas({ onNodesChange, onEdgesChange }: WorkflowCanvasP
 
       {/* 操作提示 */}
       <div style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-secondary)' }}>
-        💡 提示：拖拽组件到画布 | 拖动组件调整位置 | 点击连接点连线 | 点击选中 | 点击 × 删除
+        💡 提示：拖拽组件到画布 | 拖动组件调整位置 | 点击【右侧输出点】再点击【左侧输入点】连线 | 点击选中 | 点击 × 删除
       </div>
     </div>
   );
