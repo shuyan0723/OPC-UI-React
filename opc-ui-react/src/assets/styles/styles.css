@@ -409,10 +409,10 @@ button {
 .modal {
   width: min(520px, 92vw);
   max-height: 89vh;
-  margin-top: 15%;
-  margin-bottom: 1%;
-  margin-left: auto;
-  margin-right: auto;
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: #fff;
   border-radius: 12px;
   padding: 16px;
