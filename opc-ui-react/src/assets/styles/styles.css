@@ -654,10 +654,35 @@ button {
   display: block;
 }
 
+/* 角色指标网格布局 - 每行5个，自适应换行，最小每行2个 */
+.role-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px 16px;
+}
+
+@media (max-width: 1200px) {
+  .role-metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .role-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .role-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .checkbox-item {
   display: flex;
   gap: 8px;
-  margin: 8px 0;
+  margin: 0;
   align-items: center;
 }
 

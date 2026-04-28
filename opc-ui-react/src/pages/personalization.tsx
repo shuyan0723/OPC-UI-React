@@ -752,12 +752,14 @@ export default function Personalization() {
               activeRole === role.id && (
                 <div key={role.id} className="role-panel active">
                   <h4>{role.name}核心关注指标</h4>
-                  {role.metrics.map((metric, index) => (
-                    <label key={index} className="checkbox-item">
-                      <input type="checkbox" defaultChecked={index < 2} />
-                      {metric}
-                    </label>
-                  ))}
+                  <div className="role-metrics-grid">
+                    {role.metrics.map((metric, index) => (
+                      <label key={index} className="checkbox-item">
+                        <input type="checkbox" defaultChecked={index < 2} />
+                        {metric}
+                      </label>
+                    ))}
+                  </div>
                 </div>
               )
             ))}
