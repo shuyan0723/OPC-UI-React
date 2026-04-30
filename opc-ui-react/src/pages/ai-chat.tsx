@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import type { ChatMessage } from '@types';
 import { LineChart } from '@components/charts/LineChart';
 import { useTracking } from '@hooks/useTracking';
@@ -48,7 +48,7 @@ export default function AIChat() {
     { id: 4, label: '知识付费完课率分析', prompt: '知识付费：分析最近30天课程完课率变化并给出改进方案' },
   ];
 
-  const handleSend = () => {
+  const handleSend = useCallback(() => {
     if (!input.trim()) return;
 
     // 埋点：记录用户提问
@@ -79,40 +79,45 @@ export default function AIChat() {
       setMessages((prev) => [...prev, aiResponse]);
       setActiveStep(2);
     }, 1000);
-  };
+  }, [input, messages]);
 
-  const handlePromptClick = (prompt: string) => {
+  const handlePromptClick = useCallback((prompt: string) => {
     // 埋点：记录提示词点击
     tracker.trackAI('prompt_click', { prompt });
 
     setInput(prompt);
     setCharCount(prompt.length);
     chatInputRef.current?.focus();
-  };
+  }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
     }
-  };
+  }, []);
 
-  const handleRemoveFile = () => {
+  const handleRemoveFile = useCallback(() => {
     setSelectedFile(null);
-  };
+  }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
-  };
+  }, [handleSend]);
 
-  const handleFeedback = (type: 'up' | 'down') => {
+  const handleFeedback = useCallback((type: 'up' | 'down') => {
     if (type === 'down') {
       setShowFeedback(true);
     }
-  };
+  }, []);
+
+  const togglePanel = useCallback(() => setIsPanelOpen(prev => !prev), []);
+  const closePanel = useCallback(() => setIsPanelOpen(false), []);
+  const handleFeedbackUp = useCallback(() => handleFeedback('up'), [handleFeedback]);
+  const handleFeedbackDown = useCallback(() => handleFeedback('down'), [handleFeedback]);
 
   return (
     <>
@@ -158,7 +163,7 @@ export default function AIChat() {
         <button
           className="chat-fab"
           aria-label="打开行业AI助手"
-          onClick={() => setIsPanelOpen(!isPanelOpen)}
+          onClick={togglePanel}
           style={{ padding: 0 }}
         >
           <img src="/src/assets/AI.png" alt="AI" style={{ width: '54px', height: '54px', borderRadius: '50%' }} />
@@ -167,14 +172,15 @@ export default function AIChat() {
           <section className="assistant-panel d-block">
             <div className="toolbar mb-8">
               <strong>行业AI助手</strong>
-              <button onClick={() => setIsPanelOpen(false)}>收起</button>
+              <button onClick={closePanel}>收起</button>
             </div>
             <div className="industry-prompt-list">
               {industryPrompts.map((prompt) => (
                 <button
                   key={prompt.id}
                   className="prompt-chip"
-                  onClick={() => handlePromptClick(prompt.prompt)}
+                  data-prompt={prompt.prompt}
+                  onClick={(e) => handlePromptClick(e.currentTarget.dataset.prompt || '')}
                 >
                   {prompt.label}
                 </button>
@@ -268,10 +274,10 @@ export default function AIChat() {
         </div>
         <div className="mt-10">
           这个回答有帮助吗？
-          <button className="tool-btn" onClick={() => handleFeedback('up')}>
+          <button className="tool-btn" onClick={handleFeedbackUp}>
             👍
           </button>
-          <button className="tool-btn" onClick={() => handleFeedback('down')}>
+          <button className="tool-btn" onClick={handleFeedbackDown}>
             👎
           </button>
           {showFeedback && (

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface LineChartProps {
   data: {
     label: string;
@@ -8,7 +10,7 @@ interface LineChartProps {
   height?: number;
 }
 
-export function LineChart({ data, labels, width = 400, height = 200 }: LineChartProps) {
+export const LineChart = memo<LineChartProps>(({ data, labels, width = 400, height = 200 }) => {
   const padding = { top: 35, right: 20, bottom: 40, left: 50 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
@@ -112,4 +114,4 @@ export function LineChart({ data, labels, width = 400, height = 200 }: LineChart
       </g>
     </svg>
   );
-}
+});

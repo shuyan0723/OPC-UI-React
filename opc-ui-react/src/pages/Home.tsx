@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTracking } from '@hooks/useTracking';
 import { tracker } from '@utils/tracking';
@@ -10,9 +11,12 @@ export function Home() {
   useTracking('首页总览');
 
   // 快捷入口点击埋点
-  const handleModuleClick = (moduleName: string) => {
-    tracker.trackClick('模块快捷入口', { moduleName });
-  };
+  const handleModuleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const moduleName = e.currentTarget.dataset.module;
+    if (moduleName) {
+      tracker.trackClick('模块快捷入口', { moduleName });
+    }
+  }, []);
   return (
     <>
       <div className="breadcrumb">首页 / 总览</div>
@@ -42,28 +46,28 @@ export function Home() {
       <section className="card">
         <h3>模块快捷入口</h3>
         <div className="grid cols-3">
-          <Link className="list-card" to="/market-trend" onClick={() => handleModuleClick('行业工作流驾驶舱')}>
+          <Link className="list-card" to="/market-trend" data-module="行业工作流驾驶舱" onClick={handleModuleClick}>
             智能决策支持：行业工作流驾驶舱
           </Link>
-          <Link className="list-card" to="/crm" onClick={() => handleModuleClick('客户关系管理')}>
+          <Link className="list-card" to="/crm" data-module="客户关系管理" onClick={handleModuleClick}>
             运营管理：客户关系管理
           </Link>
-          <Link className="list-card" to="/finance-analysis" onClick={() => handleModuleClick('财务分析')}>
+          <Link className="list-card" to="/finance-analysis" data-module="财务分析" onClick={handleModuleClick}>
             财务管理：财务分析
           </Link>
-          <Link className="list-card" to="/competitor" onClick={() => handleModuleClick('竞争情报监控')}>
+          <Link className="list-card" to="/competitor" data-module="竞争情报监控" onClick={handleModuleClick}>
             智能决策支持：竞争情报监控
           </Link>
-          <Link className="list-card" to="/content-ops" onClick={() => handleModuleClick('内容运营')}>
+          <Link className="list-card" to="/content-ops" data-module="内容运营" onClick={handleModuleClick}>
             运营管理：内容运营
           </Link>
-          <Link className="list-card" to="/investment" onClick={() => handleModuleClick('投融资对接')}>
+          <Link className="list-card" to="/investment" data-module="投融资对接" onClick={handleModuleClick}>
             资源对接：投融资对接
           </Link>
-          <Link className="list-card" to="/personalization" onClick={() => handleModuleClick('个性化定制')}>
+          <Link className="list-card" to="/personalization" data-module="个性化定制" onClick={handleModuleClick}>
             配置中心：个性化定制
           </Link>
-          <Link className="list-card" to="/ai-chat" onClick={() => handleModuleClick('行业AI助手')}>
+          <Link className="list-card" to="/ai-chat" data-module="行业AI助手" onClick={handleModuleClick}>
             配置中心：行业AI助手
           </Link>
         </div>

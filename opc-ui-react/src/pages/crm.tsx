@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { Customer } from '@types';
 
 interface Tab {
@@ -40,14 +40,18 @@ export default function CRM() {
     { key: 'deal', label: '成交', count: 30 },
   ];
 
-  const handleTabClick = (key: string) => {
+  const handleTabClick = useCallback((key: string) => {
     setActiveTab(key);
-  };
+  }, []);
 
-  const openCustomerDrawer = (customer: Customer) => {
+  const openCustomerDrawer = useCallback((customer: Customer) => {
     setSelectedCustomer(customer);
     setIsDrawerOpen(true);
-  };
+  }, []);
+
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
+  const closeDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
   return (
     <>
@@ -76,7 +80,7 @@ export default function CRM() {
           <select>
             <option>全部行业</option>
           </select>
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+          <button className="btn-primary" onClick={openModal}>
             新建客户
           </button>
         </div>
@@ -106,10 +110,10 @@ export default function CRM() {
               <input placeholder="当前阶段" />
             </div>
             <div className="mt-10">
-              <button className="btn-primary" onClick={() => setIsModalOpen(false)}>
+              <button className="btn-primary" onClick={closeModal}>
                 保存
               </button>
-              <button onClick={() => setIsModalOpen(false)}>取消</button>
+              <button onClick={closeModal}>取消</button>
             </div>
           </div>
         </div>
@@ -135,7 +139,7 @@ export default function CRM() {
               </p>
             )}
             <p>这里展示客户完整画像、跟进记录和消息入口。</p>
-            <button onClick={() => setIsDrawerOpen(false)}>关闭</button>
+            <button onClick={closeDrawer}>关闭</button>
           </div>
         </div>
       )}

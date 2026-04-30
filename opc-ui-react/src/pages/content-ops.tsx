@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { CalendarChart } from '@components/charts/CalendarChart';
 import { LineChart } from '@components/charts/LineChart';
 import { BarChart } from '@components/charts/BarChart';
@@ -12,6 +12,14 @@ export default function ContentOps() {
 
   const platforms = ['小红书', '抖音', '微信'];
   const calendarViews = ['月', '周', '日'];
+
+  const handlePlatformChange = useCallback((platform: string) => {
+    setActivePlatform(platform);
+  }, []);
+
+  const handleCalendarViewChange = useCallback((view: string) => {
+    setCalendarView(view);
+  }, []);
 
   // 日历发布计划数据
   const calendarEvents = [
@@ -66,7 +74,7 @@ export default function ContentOps() {
             <button
               key={platform}
               className={`tab ${activePlatform === platform ? 'active' : ''}`}
-              onClick={() => setActivePlatform(platform)}
+              onClick={() => handlePlatformChange(platform)}
             >
               {platform}
             </button>
@@ -80,7 +88,7 @@ export default function ContentOps() {
             <button
               key={view}
               className={`tab ${calendarView === view ? 'active' : ''}`}
-              onClick={() => setCalendarView(view)}
+              onClick={() => handleCalendarViewChange(view)}
             >
               {view}
             </button>

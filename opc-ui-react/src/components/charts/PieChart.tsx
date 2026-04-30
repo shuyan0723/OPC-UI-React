@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface PieChartProps {
   data: {
     label: string;
@@ -7,7 +9,7 @@ interface PieChartProps {
   height?: number;
 }
 
-export function PieChart({ data, width = 300, height = 300 }: PieChartProps) {
+export const PieChart = memo<PieChartProps>(({ data, width = 300, height = 300 }) => {
   const centerX = width / 2;
   const centerY = height / 2;
   const radius = Math.min(width, height) / 2 - 20;
@@ -103,4 +105,4 @@ export function PieChart({ data, width = 300, height = 300 }: PieChartProps) {
       </g>
     </svg>
   );
-}
+});

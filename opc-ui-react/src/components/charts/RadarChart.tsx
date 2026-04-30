@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface RadarChartProps {
   data: {
     label: string;
@@ -8,7 +10,7 @@ interface RadarChartProps {
   height?: number;
 }
 
-export function RadarChart({ data, categories, width = 300, height = 300 }: RadarChartProps) {
+export const RadarChart = memo<RadarChartProps>(({ data, categories, width = 300, height = 300 }) => {
   const centerX = width / 2;
   const centerY = height / 2;
   const radius = Math.min(width, height) / 2 - 40;
@@ -111,4 +113,4 @@ export function RadarChart({ data, categories, width = 300, height = 300 }: Rada
       })}
     </svg>
   );
-}
+});

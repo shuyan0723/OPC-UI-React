@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface BarChartProps {
   data: {
     label: string;
@@ -7,7 +9,7 @@ interface BarChartProps {
   height?: number;
 }
 
-export function BarChart({ data, width = 400, height = 200 }: BarChartProps) {
+export const BarChart = memo<BarChartProps>(({ data, width = 400, height = 200 }) => {
   const padding = { top: 20, right: 20, bottom: 40, left: 50 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
@@ -91,4 +93,4 @@ export function BarChart({ data, width = 400, height = 200 }: BarChartProps) {
       })}
     </svg>
   );
-}
+});
